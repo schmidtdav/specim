@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Registry</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #dddbd4;
+    --border-strong: #b8b5ac;
+    --text: #1a1916;
+    --text-muted: #6b6860;
+    --text-faint: #a09d96;
+    --accent: #1a1916;
+    --accent-r: #c8401a;
+    --accent-s: #1a5ca8;
+    --accent-c: #1a7a3c;
+    --tag-r-bg: #fdf0ec;
+    --tag-r-text: #8c2c10;
+    --tag-s-bg: #ecf2fd;
+    --tag-s-text: #0e3d72;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent-r);
+  }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* ── Layout ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .tab {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── Search ── */
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .search-bar input {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-bar input:focus { border-color: var(--border-strong); }
+  .search-bar input::placeholder { color: var(--text-faint); }
+
+  select {
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* ── Registry table ── */
+  .registry-list { display: flex; flex-direction: column; gap: 1px; }
+
+  .reg-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .reg-item:hover { border-color: var(--border-strong); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+
+  .reg-id {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .type-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .badge-R { background: var(--tag-r-bg); color: var(--tag-r-text); }
+  .badge-S { background: var(--tag-s-bg); color: var(--tag-s-text); }
+
+  .reg-main { min-width: 0; }
+  .reg-name { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .reg-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .reg-right { text-align: right; flex-shrink: 0; }
+  .reg-expiry { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .reg-expiry.expired { color: #c0392b; }
+  .reg-expiry.soon { color: #d67e00; }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+  .empty-state strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 6px; }
+
+  /* ── Add form ── */
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; font-family: var(--mono); }
+  input[type=text], input[type=date], textarea, select.full {
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  input[type=text]:focus, input[type=date]:focus, textarea:focus { border-color: var(--border-strong); background: var(--surface); }
+  textarea { resize: vertical; min-height: 72px; }
+
+  .preview-id {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn:hover { background: var(--bg); border-color: var(--border-strong); }
+  .btn-primary {
+    background: var(--text);
+    color: var(--surface);
+    border-color: var(--text);
+  }
+  .btn-primary:hover { background: #333; border-color: #333; }
+  .btn-danger { color: #c0392b; border-color: #f5c6c6; }
+  .btn-danger:hover { background: #fdf0f0; }
+
+  .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+  /* ── Detail modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,25,22,0.45);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(8px);
+    transition: transform 0.2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .modal-body { padding: 20px 24px; }
+  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+
+  .modal-id {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .modal-name { font-size: 20px; font-weight: 500; }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .detail-item label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 3px; }
+  .detail-item span { font-size: 14px; color: var(--text); }
+  .detail-notes { margin-top: 12px; }
+  .detail-notes label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+  .detail-notes p { font-size: 14px; color: var(--text-muted); white-space: pre-wrap; }
+
+  .qr-section {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  #qr-container { display: flex; justify-content: center; margin-bottom: 8px; }
+  #qr-container canvas, #qr-container img { border-radius: 4px; }
+  .qr-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+
+  .close-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 20px; color: var(--text-muted); line-height: 1;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .close-btn:hover { color: var(--text); }
+
+  /* ── Setup view ── */
+  .setup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    max-width: 680px;
+  }
+  .setup-card h2 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
+  .step { display: flex; gap: 16px; margin-bottom: 20px; }
+  .step-num { font-family: var(--mono); font-size: 12px; font-weight: 500; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-body h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .step-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  code { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; color: var(--text); }
+  .code-block { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; color: var(--text-muted); margin-top: 8px; white-space: pre; overflow-x: auto; }
+
+  /* ── Print ── */
+  @media print {
+    header, .tabs, .search-bar, .modal-footer, .form-actions { display: none !important; }
+    .modal-overlay { position: static; background: none; padding: 0; }
+    .modal { max-height: none; box-shadow: none; border: none; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 580px) {
+    .container { padding: 20px 16px; }
+    header { padding: 0 16px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .reg-item { grid-template-columns: 1fr auto; }
+    .reg-id { display: none; }
+    .logo span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Lab Registry
+    <span style="color:var(--text-faint);font-weight:300">/ reagents</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="showTab('add')">+ Add</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('browse')">Browse</button>
+    <button class="tab" onclick="showTab('add')">Add entry</button>
+    <button class="tab" onclick="showTab('setup')">Setup & export</button>
+  </div>
+
+  <!-- BROWSE -->
+  <div class="view active" id="view-browse">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search by name, ID, lot, manufacturer…" oninput="renderList()">
+      <select id="filter-type" onchange="renderList()">
+        <option value="">All types</option>
+        <option value="R">Reagents (R)</option>
+        <option value="S">Samples (S)</option>
+      </select>
+    </div>
+    <div class="registry-list" id="registry-list"></div>
+  </div>
+
+  <!-- ADD -->
+  <div class="view" id="view-add">
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Type</label>
+          <select id="f-type" onchange="updatePreviewId()">
+            <option value="R">R — Reagent</option>
+            <option value="S">S — Sample</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Generated ID</label>
+          <div class="preview-id" id="preview-id">R-2024-0001</div>
+        </div>
+        <div class="form-group full">
+          <label>Name *</label>
+          <input type="text" id="f-name" placeholder="e.g. PBS 10× concentrate">
+        </div>
+        <div class="form-group">
+          <label>Manufacturer</label>
+          <input type="text" id="f-manufacturer" placeholder="e.g. Sigma-Aldrich">
+        </div>
+        <div class="form-group">
+          <label>Lot number</label>
+          <input type="text" id="f-lot" placeholder="e.g. BCDF1234">
+        </div>
+        <div class="form-group">
+          <label>Expiry date</label>
+          <input type="date" id="f-expiry">
+        </div>
+        <div class="form-group">
+          <label>Storage</label>
+          <input type="text" id="f-storage" placeholder="e.g. −20 °C, rack B3">
+        </div>
+        <div class="form-group">
+          <label>Concentration / volume</label>
+          <input type="text" id="f-conc" placeholder="e.g. 1 mg/ml, 500 µl">
+        </div>
+        <div class="form-group">
+          <label>Aliquot</label>
+          <input type="text" id="f-aliquot" placeholder="e.g. 3 of 10">
+        </div>
+        <div class="form-group">
+          <label>Project</label>
+          <input type="text" id="f-project" placeholder="e.g. Project AURORA">
+        </div>
+        <div class="form-group full">
+          <label>Notes</label>
+          <textarea id="f-notes" placeholder="Handling notes, references, preparation details…"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn" onclick="clearForm()">Clear</button>
+        <button class="btn btn-primary" onclick="addEntry()">Save entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP -->
+  <div class="view" id="view-setup">
+    <div class="setup-card">
+      <h2>GitHub Pages setup</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Create a GitHub repository</h3>
+          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>, create a new public repository (e.g. <code>lab-registry</code>). You only need to do this once.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Upload this file</h3>
+          <p>Click <strong>Add file → Upload files</strong> in your repo and upload <code>lab-registry.html</code>. Rename it to <code>index.html</code> so it loads automatically.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Enable GitHub Pages</h3>
+          <p>Go to your repo → <strong>Settings → Pages</strong>. Under <em>Source</em>, select <code>main</code> branch and <code>/ (root)</code>. Click Save. Your URL will be:</p>
+          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Workflow for adding entries</h3>
+          <p>Add entries here on your computer → click <strong>Export HTML</strong> below → this downloads an updated copy of the file with your data baked in → upload/replace on GitHub → the page updates in ~1 minute. The QR codes you print will always point to the live URL.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>QR code URL pattern</h3>
+          <p>When you print a label, the QR encodes a URL like:</p>
+          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/#R-2024-0001</div>
+          <p style="margin-top:8px">Scanning opens the registry and jumps straight to that entry. Update the base URL below after setting up.</p>
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+            <input type="text" id="base-url" placeholder="https://username.github.io/lab-registry" style="flex:1;font-size:12px;font-family:var(--mono)" oninput="saveBaseUrl()">
+            <span style="font-size:12px;color:var(--text-muted)">(no trailing /)</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="exportHTML()">Export HTML with data</button>
+        <button class="btn" onclick="importJSON()">Import backup JSON</button>
+        <button class="btn" onclick="exportJSON()">Export backup JSON</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Export HTML bakes all current entries into a downloadable file ready to push to GitHub.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-id" id="m-id"></div>
+        <div class="modal-name" id="m-name"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span></div>
+        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span></div>
+        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span></div>
+        <div class="detail-item"><label>Storage</label><span id="m-storage"></span></div>
+        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span></div>
+        <div class="detail-item"><label>Project</label><span id="m-project"></span></div>
+        <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
+      </div>
+      <div class="detail-notes">
+        <label>Notes</label>
+        <p id="m-notes"></p>
+      </div>
+      <div class="qr-section">
+        <div id="qr-container"></div>
+        <div class="qr-label" id="qr-label"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" onclick="deleteEntry()">Delete</button>
+      <button class="btn btn-primary" onclick="window.print()">Print label QR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Data store ──────────────────────────────────────────────
+// REGISTRY_DATA is replaced on export — do not rename.
+const REGISTRY_DATA = [];
+
+let db = [];
+let currentId = null;
+
+function init() {
+  // Load from embedded data or localStorage
+  const stored = localStorage.getItem('lab-registry');
+  if (stored) {
+    try { db = JSON.parse(stored); } catch(e) { db = [...REGISTRY_DATA]; }
+  } else {
+    db = [...REGISTRY_DATA];
+  }
+  const url = localStorage.getItem('lab-base-url') || '';
+  document.getElementById('base-url').value = url;
+  updatePreviewId();
+  renderList();
+  handleHash();
+}
+
+function save() {
+  localStorage.setItem('lab-registry', JSON.stringify(db));
+}
+
+function saveBaseUrl() {
+  localStorage.setItem('lab-base-url', document.getElementById('base-url').value.trim());
+}
+
+function getBaseUrl() {
+  return (document.getElementById('base-url').value.trim() || window.location.origin + window.location.pathname).replace(/\/$/, '');
+}
+
+// ── ID generation ────────────────────────────────────────────
+function nextId(type) {
+  const year = new Date().getFullYear();
+  const same = db.filter(e => e.id.startsWith(type + '-' + year + '-'));
+  const nums = same.map(e => parseInt(e.id.split('-')[2]) || 0);
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return `${type}-${year}-${String(next).padStart(4, '0')}`;
+}
+
+function updatePreviewId() {
+  const type = document.getElementById('f-type').value;
+  document.getElementById('preview-id').textContent = nextId(type);
+}
+
+// ── CRUD ─────────────────────────────────────────────────────
+function addEntry() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const type = document.getElementById('f-type').value;
+  const id = nextId(type);
+  const entry = {
+    id,
+    type,
+    name,
+    manufacturer: document.getElementById('f-manufacturer').value.trim(),
+    lot:          document.getElementById('f-lot').value.trim(),
+    expiry:       document.getElementById('f-expiry').value,
+    storage:      document.getElementById('f-storage').value.trim(),
+    conc:         document.getElementById('f-conc').value.trim(),
+    aliquot:      document.getElementById('f-aliquot').value.trim(),
+    project:      document.getElementById('f-project').value.trim(),
+    notes:        document.getElementById('f-notes').value.trim(),
+    added:        new Date().toISOString().slice(0, 10),
+  };
+  db.unshift(entry);
+  save();
+  clearForm();
+  showTab('browse');
+  renderList();
+  setTimeout(() => openModal(id), 100);
+}
+
+function deleteEntry() {
+  if (!currentId) return;
+  if (!confirm('Delete ' + currentId + '? This cannot be undone.')) return;
+  db = db.filter(e => e.id !== currentId);
+  save();
+  closeModal();
+  renderList();
+}
+
+function clearForm() {
+  ['f-name','f-manufacturer','f-lot','f-storage','f-conc','f-aliquot','f-project','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-expiry').value = '';
+  updatePreviewId();
+}
+
+// ── Render list ──────────────────────────────────────────────
+function renderList() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const typeFilter = document.getElementById('filter-type').value;
+  const list = document.getElementById('registry-list');
+  const filtered = db.filter(e => {
+    if (typeFilter && e.type !== typeFilter) return false;
+    if (!q) return true;
+    return [e.id, e.name, e.manufacturer, e.lot, e.project, e.storage].join(' ').toLowerCase().includes(q);
+  });
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><strong>${db.length ? 'No results' : 'No entries yet'}</strong>${db.length ? 'Try a different search term.' : 'Add your first reagent using the Add entry tab.'}</div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(e => {
+    const exp = expiryClass(e.expiry);
+    const expLabel = e.expiry ? `Exp ${e.expiry}` : '—';
+    return `<div class="reg-item" onclick="openModal('${e.id}')">
+      <div class="reg-id">
+        <div class="type-badge badge-${e.type}">${e.type}</div><br>
+        ${e.id}
+      </div>
+      <div class="reg-main">
+        <div class="reg-name">${e.name}</div>
+        <div class="reg-meta">${[e.manufacturer, e.lot, e.storage].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="reg-right">
+        <div class="reg-expiry ${exp}">${expLabel}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function expiryClass(dateStr) {
+  if (!dateStr) return '';
+  const exp = new Date(dateStr);
+  const now = new Date();
+  const diff = (exp - now) / (1000 * 60 * 60 * 24);
+  if (diff < 0) return 'expired';
+  if (diff < 90) return 'soon';
+  return '';
+}
+
+// ── Modal ────────────────────────────────────────────────────
+function openModal(id) {
+  const e = db.find(x => x.id === id);
+  if (!e) return;
+  currentId = id;
+  document.getElementById('m-id').textContent = e.id;
+  document.getElementById('m-name').textContent = e.name;
+  document.getElementById('m-manufacturer').textContent = e.manufacturer || '—';
+  document.getElementById('m-lot').textContent = e.lot || '—';
+  document.getElementById('m-expiry').textContent = e.expiry || '—';
+  document.getElementById('m-storage').textContent = e.storage || '—';
+  document.getElementById('m-conc').textContent = e.conc || '—';
+  document.getElementById('m-aliquot').textContent = e.aliquot || '—';
+  document.getElementById('m-project').textContent = e.project || '—';
+  document.getElementById('m-date').textContent = e.added || '—';
+  document.getElementById('m-notes').textContent = e.notes || '—';
+  const url = getBaseUrl() + '/#' + e.id;
+  document.getElementById('qr-label').textContent = url;
+  const qrDiv = document.getElementById('qr-container');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, { text: url, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.M });
+  document.getElementById('modal-overlay').classList.add('open');
+  window.location.hash = id;
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  history.replaceState(null, '', window.location.pathname);
+  currentId = null;
+}
+
+function handleHash() {
+  const hash = window.location.hash.slice(1);
+  if (hash && db.find(e => e.id === hash)) openModal(hash);
+}
+
+// ── Tabs ─────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  const tabs = ['browse', 'add', 'setup'];
+  document.querySelectorAll('.tab')[tabs.indexOf(name)].classList.add('active');
+  if (name === 'add') updatePreviewId();
+}
+
+// ── Export / Import ──────────────────────────────────────────
+function exportHTML() {
+  const src = document.documentElement.outerHTML;
+  const marker = 'const REGISTRY_DATA = [];';
+  const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';';
+  const out = src.replace(marker, replacement);
+  download('lab-registry.html', out, 'text/html');
+}
+
+function exportJSON() {
+  download('lab-registry-backup.json', JSON.stringify(db, null, 2), 'application/json');
+}
+
+function importJSON() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!Array.isArray(data)) throw new Error('Not an array');
+        if (confirm('This will merge ' + data.length + ' entries. Duplicates (same ID) will be skipped. Continue?')) {
+          const existingIds = new Set(db.map(e => e.id));
+          const newEntries = data.filter(e => !existingIds.has(e.id));
+          db = [...db, ...newEntries];
+          save(); renderList();
+          alert('Imported ' + newEntries.length + ' new entries.');
+        }
+      } catch(err) { alert('Invalid JSON file.'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function download(filename, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = filename;
+  a.click();
+}
+
+// ── Boot ─────────────────────────────────────────────────────
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
