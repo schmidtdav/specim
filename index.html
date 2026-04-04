@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab Registry</title>
@@ -357,7 +359,7 @@
     .logo span { display: none; }
   }
 </style>
-<style type="text/css"></style></head>
+</head>
 <body>
 
 <header>
@@ -373,13 +375,13 @@
 
 <div class="container">
   <div class="tabs">
-    <button class="tab" onclick="showTab('browse')">Browse</button>
+    <button class="tab active" onclick="showTab('browse')">Browse</button>
     <button class="tab" onclick="showTab('add')">Add entry</button>
-    <button class="tab active" onclick="showTab('setup')">Setup &amp; export</button>
+    <button class="tab" onclick="showTab('setup')">Setup & export</button>
   </div>
 
   <!-- BROWSE -->
-  <div class="view" id="view-browse">
+  <div class="view active" id="view-browse">
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search by name, ID, lot, manufacturer…" oninput="renderList()">
       <select id="filter-type" onchange="renderList()">
@@ -388,31 +390,7 @@
         <option value="S">Samples (S)</option>
       </select>
     </div>
-    <div class="registry-list" id="registry-list"><div class="reg-item" onclick="openModal('R-2026-0002')">
-      <div class="reg-id">
-        <div class="type-badge badge-R">R</div><br>
-        R-2026-0002
-      </div>
-      <div class="reg-main">
-        <div class="reg-name">test x</div>
-        <div class="reg-meta">schmidt</div>
-      </div>
-      <div class="reg-right">
-        <div class="reg-expiry ">—</div>
-      </div>
-    </div><div class="reg-item" onclick="openModal('R-2026-0001')">
-      <div class="reg-id">
-        <div class="type-badge badge-R">R</div><br>
-        R-2026-0001
-      </div>
-      <div class="reg-main">
-        <div class="reg-name">PBS 10x</div>
-        <div class="reg-meta">home</div>
-      </div>
-      <div class="reg-right">
-        <div class="reg-expiry ">—</div>
-      </div>
-    </div></div>
+    <div class="registry-list" id="registry-list"></div>
   </div>
 
   <!-- ADD -->
@@ -428,7 +406,7 @@
         </div>
         <div class="form-group">
           <label>Generated ID</label>
-          <div class="preview-id" id="preview-id">R-2026-0003</div>
+          <div class="preview-id" id="preview-id">R-2024-0001</div>
         </div>
         <div class="form-group full">
           <label>Name *</label>
@@ -475,7 +453,7 @@
   </div>
 
   <!-- SETUP -->
-  <div class="view active" id="view-setup">
+  <div class="view" id="view-setup">
     <div class="setup-card">
       <h2>GitHub Pages setup</h2>
 
@@ -541,29 +519,29 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <div class="modal-id" id="m-id">R-2026-0002</div>
-        <div class="modal-name" id="m-name">test x</div>
+        <div class="modal-id" id="m-id"></div>
+        <div class="modal-name" id="m-name"></div>
       </div>
-      <button class="close-btn" onclick="closeModal()">×</button>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer">schmidt</span></div>
-        <div class="detail-item"><label>Lot number</label><span id="m-lot">—</span></div>
-        <div class="detail-item"><label>Expiry</label><span id="m-expiry">—</span></div>
-        <div class="detail-item"><label>Storage</label><span id="m-storage">—</span></div>
-        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc">—</span></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot">1 of 10</span></div>
-        <div class="detail-item"><label>Project</label><span id="m-project">—</span></div>
-        <div class="detail-item"><label>Added</label><span id="m-date">2026-04-04</span></div>
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span></div>
+        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span></div>
+        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span></div>
+        <div class="detail-item"><label>Storage</label><span id="m-storage"></span></div>
+        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span></div>
+        <div class="detail-item"><label>Project</label><span id="m-project"></span></div>
+        <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
       </div>
       <div class="detail-notes">
         <label>Notes</label>
-        <p id="m-notes">—</p>
+        <p id="m-notes"></p>
       </div>
       <div class="qr-section">
-        <div id="qr-container" title="https://schmidtdav.github.io/specim/#R-2026-0002"><canvas width="160" height="160" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,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"></div>
-        <div class="qr-label" id="qr-label">https://schmidtdav.github.io/specim/#R-2026-0002</div>
+        <div id="qr-container"></div>
+        <div class="qr-label" id="qr-label"></div>
       </div>
     </div>
     <div class="modal-footer">
@@ -576,22 +554,7 @@
 <script>
 // ── Data store ──────────────────────────────────────────────
 // REGISTRY_DATA is replaced on export — do not rename.
-const REGISTRY_DATA = [
-  {
-    "id": "R-2026-0001",
-    "type": "R",
-    "name": "PBS 10x",
-    "manufacturer": "home",
-    "lot": "",
-    "expiry": "",
-    "storage": "",
-    "conc": "",
-    "aliquot": "1",
-    "project": "",
-    "notes": "",
-    "added": "2026-04-04"
-  }
-];
+const REGISTRY_DATA = [];
 
 let db = [];
 let currentId = null;
@@ -773,36 +736,7 @@ function showTab(name) {
 // ── Export / Import ──────────────────────────────────────────
 function exportHTML() {
   const src = document.documentElement.outerHTML;
-  const marker = 'const REGISTRY_DATA = [
-  {
-    "id": "R-2026-0002",
-    "type": "R",
-    "name": "test x",
-    "manufacturer": "schmidt",
-    "lot": "",
-    "expiry": "",
-    "storage": "",
-    "conc": "",
-    "aliquot": "1 of 10",
-    "project": "",
-    "notes": "",
-    "added": "2026-04-04"
-  },
-  {
-    "id": "R-2026-0001",
-    "type": "R",
-    "name": "PBS 10x",
-    "manufacturer": "home",
-    "lot": "",
-    "expiry": "",
-    "storage": "",
-    "conc": "",
-    "aliquot": "1",
-    "project": "",
-    "notes": "",
-    "added": "2026-04-04"
-  }
-];';
+  const marker = 'const REGISTRY_DATA = [];';
   const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';';
   const out = src.replace(marker, replacement);
   download('lab-registry.html', out, 'text/html');
@@ -847,6 +781,5 @@ function download(filename, content, type) {
 // ── Boot ─────────────────────────────────────────────────────
 window.addEventListener('load', init);
 </script>
-
-
-</body></html>
+</body>
+</html>
