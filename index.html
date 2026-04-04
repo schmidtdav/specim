@@ -555,8 +555,11 @@
 // ── Data store ──────────────────────────────────────────────
 // REGISTRY_DATA is replaced on export — do not rename.
 const REGISTRY_DATA = [];
+// USED_IDS_DATA is replaced on export — do not rename.
+const USED_IDS_DATA = [];
 
 let db = [];
+let usedIds = new Set();
 let currentId = null;
 
 function init() {
@@ -567,6 +570,13 @@ function init() {
   } else {
     db = [...REGISTRY_DATA];
   }
+  // Load the permanent ID ledger (grows only, never shrinks on delete)
+  try {
+    const storedIds = JSON.parse(localStorage.getItem('lab-used-ids') || '[]');
+    usedIds = new Set([...storedIds, ...USED_IDS_DATA, ...db.map(e => e.id)]);
+  } catch(e) {
+    usedIds = new Set([...USED_IDS_DATA, ...db.map(e => e.id)]);
+  }
   const url = localStorage.getItem('lab-base-url') || '';
   document.getElementById('base-url').value = url;
   updatePreviewId();
@@ -576,6 +586,8 @@ function init() {
 
 function save() {
   localStorage.setItem('lab-registry', JSON.stringify(db));
+  // Persist the ID ledger separately — never cleared on delete
+  localStorage.setItem('lab-used-ids', JSON.stringify([...usedIds]));
 }
 
 function saveBaseUrl() {
@@ -589,10 +601,16 @@ function getBaseUrl() {
 // ── ID generation ────────────────────────────────────────────
 function nextId(type) {
   const year = new Date().getFullYear();
-  const same = db.filter(e => e.id.startsWith(type + '-' + year + '-'));
-  const nums = same.map(e => parseInt(e.id.split('-')[2]) || 0);
-  const next = nums.length ? Math.max(...nums) + 1 : 1;
-  return `${type}-${year}-${String(next).padStart(4, '0')}`;
+  // Find the highest number ever used for this type+year (including deleted entries)
+  const prefix = type + '-' + year + '-';
+  let max = 0;
+  usedIds.forEach(id => {
+    if (id.startsWith(prefix)) {
+      const n = parseInt(id.split('-')[2]) || 0;
+      if (n > max) max = n;
+    }
+  });
+  return `${type}-${year}-${String(max + 1).padStart(4, '0')}`;
 }
 
 function updatePreviewId() {
@@ -606,6 +624,7 @@ function addEntry() {
   if (!name) { alert('Name is required.'); return; }
   const type = document.getElementById('f-type').value;
   const id = nextId(type);
+  usedIds.add(id); // Register immediately — survives future deletes
   const entry = {
     id,
     type,
@@ -737,7 +756,8 @@ function showTab(name) {
 function exportHTML() {
   const src = document.documentElement.outerHTML;
   const marker = 'const REGISTRY_DATA = [];';
-  const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';';
+  const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';\n' +
+    'const USED_IDS_DATA = ' + JSON.stringify([...usedIds]) + ';';
   const out = src.replace(marker, replacement);
   download('lab-registry.html', out, 'text/html');
 }
