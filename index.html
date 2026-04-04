@@ -357,7 +357,7 @@
     .logo span { display: none; }
   }
 </style>
-</head>
+<style type="text/css"></style></head>
 <body>
 
 <header>
@@ -388,7 +388,19 @@
         <option value="S">Samples (S)</option>
       </select>
     </div>
-    <div class="registry-list" id="registry-list"><div class="reg-item" onclick="openModal('R-2026-0001')">
+    <div class="registry-list" id="registry-list"><div class="reg-item" onclick="openModal('R-2026-0002')">
+      <div class="reg-id">
+        <div class="type-badge badge-R">R</div><br>
+        R-2026-0002
+      </div>
+      <div class="reg-main">
+        <div class="reg-name">test x</div>
+        <div class="reg-meta">schmidt</div>
+      </div>
+      <div class="reg-right">
+        <div class="reg-expiry ">—</div>
+      </div>
+    </div><div class="reg-item" onclick="openModal('R-2026-0001')">
       <div class="reg-id">
         <div class="type-badge badge-R">R</div><br>
         R-2026-0001
@@ -416,7 +428,7 @@
         </div>
         <div class="form-group">
           <label>Generated ID</label>
-          <div class="preview-id" id="preview-id">R-2026-0002</div>
+          <div class="preview-id" id="preview-id">R-2026-0003</div>
         </div>
         <div class="form-group full">
           <label>Name *</label>
@@ -529,19 +541,19 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <div class="modal-id" id="m-id">R-2026-0001</div>
-        <div class="modal-name" id="m-name">PBS 10x</div>
+        <div class="modal-id" id="m-id">R-2026-0002</div>
+        <div class="modal-name" id="m-name">test x</div>
       </div>
       <button class="close-btn" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer">home</span></div>
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer">schmidt</span></div>
         <div class="detail-item"><label>Lot number</label><span id="m-lot">—</span></div>
         <div class="detail-item"><label>Expiry</label><span id="m-expiry">—</span></div>
         <div class="detail-item"><label>Storage</label><span id="m-storage">—</span></div>
         <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc">—</span></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot">1</span></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot">1 of 10</span></div>
         <div class="detail-item"><label>Project</label><span id="m-project">—</span></div>
         <div class="detail-item"><label>Added</label><span id="m-date">2026-04-04</span></div>
       </div>
@@ -550,8 +562,8 @@
         <p id="m-notes">—</p>
       </div>
       <div class="qr-section">
-        <div id="qr-container" title="file:///Users/schmidt/Downloads/lab-registry.html/#R-2026-0001"><canvas width="160" height="160" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,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"></div>
-        <div class="qr-label" id="qr-label">file:///Users/schmidt/Downloads/lab-registry.html/#R-2026-0001</div>
+        <div id="qr-container" title="https://schmidtdav.github.io/specim/#R-2026-0002"><canvas width="160" height="160" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAYAAACLz2ctAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAoKADAAQAAAABAAAAoAAAAACn7BmJAAAIx0lEQVR4Ae2c0W4cOQwEswf//y/7ooc8mFtyekSNdmOUgcNBDLvJqSUUztnnx69fvz5///PSr8/PrIXH47G1z7Tu1qKBWfqcnf7TGkG7rZT/WmrFEmgScACbAJX3CDiAPX6qmwQ+qr6zV1Sv2TnZPygn7Y201EuSRzUT3ahH2toHeSW66tM9n6hJz+oN2P3k1LcIOIAtfIq7BBzALkH1LQIOYAuf4i6Bp5cQMqTlkfIodmK5pbo1Rn3U56Kc6nPlXP2Httao55GT6EYefXW01Y+8as7sTM9Fud6ARMXYMQIO4DHUFiICDiBRMXaMgAN4DLWFiED0EkLCd4nRopwuwElex58YVb+kh+FTdeQ9YqnfTH867g14mrj1vhBwAL/g8HCagAN4mrj1vhBwAL/g8HCawNu+hNAynS7ilEd+d8N+RR+vqNnh6A3Yoae2TcABbCPUoEPAAezQU9sm4AC2EWrQIRC9hLxigU8finqjRZz8ah55UazqhjflUaz2kXqledW/c0767/gPrTdgl6D6FgEHsIVPcZeAA9glqL5FwAFs4VPcJfD0EkLLbrfIip76oKV4Z17qlT7Pbr+k7mpN0iX1ujnegF2C6lsEHMAWPsVdAg5gl6D6FoHH770q++2QrTLXxelOsrN9qtnx3+13neL7K7wB3/8z+tEdOoA/+uN9/4dzAN//M/rRHTqAP/rjff+HG792/stLSGfpTh+3LudUs+YMb8qjmqSlvNUY9UE1KW+1JvmvepEu7bXTB9XwBqRPw9gxAg7gMdQWIgIOIFExdoyAA3gMtYWIwPJ3QmgZpSWTiu6MUR+pf9Jv6k9eiZZ0af/k3/Grdcm/5szOaR/egDOCxo8QcACPYLbIjIADOCNj/AgBB/AIZovMCDz9SD4lpstomldr0MJKXpRHseo/zuRHeXfHar9pX1U3+qQY9Z/USL0oj/wpRlpvQPrEjB0j4AAeQ20hIuAAEhVjxwg4gMdQW4gILP84VrpkJnlJzmg+zaMHTWLkn+hGDi3YpE1qpF7kTzGqWWtQDnntjnkD7iaq3yUCDuAlXCbvJuAA7iaq3yUCDuAlXCbvJvCRLKM1Z9YELbKkrXmUM6uRxKt/opnlUG/kT7GZ50qc/NPeqB751Tzyrzmzc+I/tN6AM4LGjxBwAI9gtsiMgAM4I2P8CAEH8Ahmi8wIfNRlsbN4zorUeK1Re6j5f85VN+KkTfP++N71b+qj1qL+a87s3NFWz6TXqtlx9gbcQVGPZQIO4DI6hTsIOIA7KOqxTCD6D9Gpe7pHJLsLeSW6tNeRV2uk/lU3q5n4kVeio/5HLNXWnld11ee7Mz2rN+B3xPyz2wk4gLcjtsB3BBzA7+j4Z7cTcABvR2yB7whE/18wLY9kSossaWuMdBSrutED5VGM+k1i5EV9JF5pDvlTHxRLtZRX+yP/mjM7kz/5eQPOCBo/QsABPILZIjMCDuCMjPEjBBzAI5gtMiMQvYTQ8kiGtHhSXupXtaTbWTP1qn2Nc9ob5ZFfEqN+V/1THdVMep3leAPOyBg/QsABPILZIjMCDuCMjPEjBBzAI5gtMiOw/MuJyHB1kU11VHPnUtzpI+0tqZE+E3mRlvJqv6SrOeOceI088iOtN+Cg5dfLCDiAL0Nv4UHAAXQOXkrAAXwpfos/fSeEFsUOpmQZTXKu9LD7GWpt6rfmdM6d/le1pLv7OQcjb8DOpKhtE3AA2wg16BBwADv01LYJOIBthBp0CDx9J4TMaBmlpZW0FKt+O72oXhqjPmqvMy/SznL/Fk9rkg/1QX41L8mheldiVMMb8ApBc7cTcAC3I9XwCgEH8Aotc7cTeNoB6e/pui+MLiiPuiMt5dVY6l9143x3TfJP+yVtfYaOV6qtNdMz9U810zxvwJS8ebcQcABvwappSsABTEmZdwsBB/AWrJqmBJZ/GiZdMqkRWlprXse/er3qnDwD5XT6Tf3qZ5Dq0t6q/0znDTgjY/wIAQfwCGaLzAg4gDMyxo8QcACPYLbIjMDTS0i6PM4Mk3iy8FIfpKO8pIc0h2qm2tXe0prkT1rKq89AOeRVdeOc5lENb0AiauwYAQfwGGoLEQEHkKgYO0bAATyG2kJEIPpxLBQ+hvTvX7R4VhUtsYlu+JC2+o8z+VUt5ZDXu8Rq/52+Os9OfaR+3oCdT01tm4AD2EaoQYeAA9ihp7ZNwAFsI9SgQ+DpOyG0UFIBWjJJSzHyS2LkRX0kXmkO1SRt2kfil3pRH6uxpK+ZN/Wb+nkDzqgaP0LAATyC2SIzAg7gjIzxIwQcwCOYLTIj8Pi9QH7O/vCVcVpi01ZXtaRLGVBviR/p0pqURzVXa6RenTxvQPoUjR0j4AAeQ20hIuAAEhVjxwg4gMdQW4gIfNACSYl3xmhJplja66o21VFeyqejrTVSHlU3zlW7sy/yHzGq4Q04yPj1MgIO4MvQW3gQcACdg5cSePppGPp7eneHdf9I/ak38qIY1SA/yluNkX/tjXKoXtVRzpVYWrd6pn2QP2m9ASthz0cJOIBHcVusEnAAKxHPRwk4gEdxW6wSeHoJqQnjTMsj5VGMllHKW42R/2q/pCP/tNdVv1Xd6Iu0FEufIclLGVGeN2BC2JzbCDiAt6HVOCHgACaUzLmNgAN4G1qNEwLRS0hidCJn9zJd/WhJpuequpFDWopVv9Sr6sY51SZ5lEM101jq5w2YEjXvFgIO4C1YNU0JOIApKfNuIeAA3oJV05TAP/USQg9Fi366AFct6WoO9TCLrfqRblajxjva6kXnDg/y8wYkKsaOEXAAj6G2EBFwAImKsWMEHMBjqC1EBKKXkN2LJzWyM0b9Jsv5qu5K73f3Qc9wpb+VXHqmtA9vwBXiarYRcAC3odRohYADuEJNzTYCDuA2lBqtEHh6CaGFcsW4q6E+aLFN86ifqiV/iiVelLM7Rr3VZxo1KS/pJdVRXtqHN2DySZhzGwEH8Da0GicEHMCEkjm3EXAAb0OrcULgf7rgqHn92TsxAAAAAElFTkSuQmCC"></div>
+        <div class="qr-label" id="qr-label">https://schmidtdav.github.io/specim/#R-2026-0002</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -761,7 +773,36 @@ function showTab(name) {
 // ── Export / Import ──────────────────────────────────────────
 function exportHTML() {
   const src = document.documentElement.outerHTML;
-  const marker = 'const REGISTRY_DATA = [];';
+  const marker = 'const REGISTRY_DATA = [
+  {
+    "id": "R-2026-0002",
+    "type": "R",
+    "name": "test x",
+    "manufacturer": "schmidt",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "conc": "",
+    "aliquot": "1 of 10",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-04"
+  },
+  {
+    "id": "R-2026-0001",
+    "type": "R",
+    "name": "PBS 10x",
+    "manufacturer": "home",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "conc": "",
+    "aliquot": "1",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-04"
+  }
+];';
   const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';';
   const out = src.replace(marker, replacement);
   download('lab-registry.html', out, 'text/html');
