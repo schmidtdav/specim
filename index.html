@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab Registry</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style type="text/css"></style>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
@@ -375,13 +373,13 @@
 
 <div class="container">
   <div class="tabs">
-    <button class="tab active" onclick="showTab('browse')">Browse</button>
+    <button class="tab" onclick="showTab('browse')">Browse</button>
     <button class="tab" onclick="showTab('add')">Add entry</button>
-    <button class="tab" onclick="showTab('setup')">Setup & export</button>
+    <button class="tab active" onclick="showTab('setup')">Setup &amp; export</button>
   </div>
 
   <!-- BROWSE -->
-  <div class="view active" id="view-browse">
+  <div class="view" id="view-browse">
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search by name, ID, lot, manufacturer…" oninput="renderList()">
       <select id="filter-type" onchange="renderList()">
@@ -390,7 +388,31 @@
         <option value="S">Samples (S)</option>
       </select>
     </div>
-    <div class="registry-list" id="registry-list"></div>
+    <div class="registry-list" id="registry-list"><div class="reg-item" onclick="openModal('R-2026-0003')">
+      <div class="reg-id">
+        <div class="type-badge badge-R">R</div><br>
+        R-2026-0003
+      </div>
+      <div class="reg-main">
+        <div class="reg-name">My reagent 3</div>
+        <div class="reg-meta">schmidt</div>
+      </div>
+      <div class="reg-right">
+        <div class="reg-expiry ">—</div>
+      </div>
+    </div><div class="reg-item" onclick="openModal('R-2026-0001')">
+      <div class="reg-id">
+        <div class="type-badge badge-R">R</div><br>
+        R-2026-0001
+      </div>
+      <div class="reg-main">
+        <div class="reg-name">PBS 10x</div>
+        <div class="reg-meta">home</div>
+      </div>
+      <div class="reg-right">
+        <div class="reg-expiry ">—</div>
+      </div>
+    </div></div>
   </div>
 
   <!-- ADD -->
@@ -406,7 +428,7 @@
         </div>
         <div class="form-group">
           <label>Generated ID</label>
-          <div class="preview-id" id="preview-id">R-2024-0001</div>
+          <div class="preview-id" id="preview-id">R-2026-0004</div>
         </div>
         <div class="form-group full">
           <label>Name *</label>
@@ -453,7 +475,7 @@
   </div>
 
   <!-- SETUP -->
-  <div class="view" id="view-setup">
+  <div class="view active" id="view-setup">
     <div class="setup-card">
       <h2>GitHub Pages setup</h2>
 
@@ -519,29 +541,29 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <div class="modal-id" id="m-id"></div>
-        <div class="modal-name" id="m-name"></div>
+        <div class="modal-id" id="m-id">R-2026-0003</div>
+        <div class="modal-name" id="m-name">My reagent 3</div>
       </div>
-      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <button class="close-btn" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span></div>
-        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span></div>
-        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span></div>
-        <div class="detail-item"><label>Storage</label><span id="m-storage"></span></div>
-        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span></div>
-        <div class="detail-item"><label>Project</label><span id="m-project"></span></div>
-        <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer">schmidt</span></div>
+        <div class="detail-item"><label>Lot number</label><span id="m-lot">—</span></div>
+        <div class="detail-item"><label>Expiry</label><span id="m-expiry">—</span></div>
+        <div class="detail-item"><label>Storage</label><span id="m-storage">—</span></div>
+        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc">4 mg</span></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot">—</span></div>
+        <div class="detail-item"><label>Project</label><span id="m-project">—</span></div>
+        <div class="detail-item"><label>Added</label><span id="m-date">2026-04-04</span></div>
       </div>
       <div class="detail-notes">
         <label>Notes</label>
-        <p id="m-notes"></p>
+        <p id="m-notes">—</p>
       </div>
       <div class="qr-section">
-        <div id="qr-container"></div>
-        <div class="qr-label" id="qr-label"></div>
+        <div id="qr-container" title="https://schmidtdav.github.io/specim/#R-2026-0003"><canvas width="160" height="160" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,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"></div>
+        <div class="qr-label" id="qr-label">https://schmidtdav.github.io/specim/#R-2026-0003</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -554,7 +576,37 @@
 <script>
 // ── Data store ──────────────────────────────────────────────
 // REGISTRY_DATA is replaced on export — do not rename.
-const REGISTRY_DATA = [];
+const REGISTRY_DATA = [
+  {
+    "id": "R-2026-0003",
+    "type": "R",
+    "name": "My reagent 3",
+    "manufacturer": "schmidt",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "conc": "4 mg",
+    "aliquot": "",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-04"
+  },
+  {
+    "id": "R-2026-0001",
+    "type": "R",
+    "name": "PBS 10x",
+    "manufacturer": "home",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "conc": "",
+    "aliquot": "1",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-04"
+  }
+];
+const USED_IDS_DATA = ["R-2026-0002","R-2026-0001","R-2026-0003"];
 // USED_IDS_DATA is replaced on export — do not rename.
 const USED_IDS_DATA = [];
 
@@ -801,5 +853,6 @@ function download(filename, content, type) {
 // ── Boot ─────────────────────────────────────────────────────
 window.addEventListener('load', init);
 </script>
-</body>
-</html>
+
+
+</body></html>
