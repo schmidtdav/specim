@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab Registry</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
@@ -305,16 +305,15 @@
   .detail-notes label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
   .detail-notes p { font-size: 14px; color: var(--text-muted); white-space: pre-wrap; }
 
-  .qr-section {
+  .barcode-section {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     text-align: center;
     margin-top: 16px;
   }
-  #qr-container { display: flex; justify-content: center; margin-bottom: 8px; }
-  #qr-container canvas, #qr-container img { border-radius: 4px; }
-  .qr-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  #barcode-container svg { max-width: 100%; height: auto; }
+  .barcode-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
 
   .close-btn {
     background: none; border: none; cursor: pointer;
@@ -340,6 +339,30 @@
   .step-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
   code { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; color: var(--text); }
   .code-block { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; color: var(--text-muted); margin-top: 8px; white-space: pre; overflow-x: auto; }
+
+  /* ── Edit mode ── */
+  .modal.editing .detail-item span,
+  .modal.editing .detail-notes p { display: none; }
+  .modal.editing .detail-item .edit-input,
+  .modal.editing .detail-notes .edit-input { display: block; }
+  .modal.editing .barcode-section { display: none; }
+  .detail-item .edit-input,
+  .detail-notes .edit-input { display: none; }
+  .edit-input {
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .edit-input:focus { border-color: var(--border-strong); background: var(--surface); }
+  textarea.edit-input { resize: vertical; min-height: 72px; }
+  .modal-footer .btn-left { margin-right: auto; }
 
   /* ── Print ── */
   @media print {
@@ -455,18 +478,35 @@
   <!-- SETUP -->
   <div class="view" id="view-setup">
     <div class="setup-card">
-      <h2>GitHub sync configuration</h2>
+      <h2>Setup &amp; GitHub sync</h2>
 
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
-          <h3>Create a <code>data</code> branch and add <code>db.json</code></h3>
-          <p>In your repo, click the branch dropdown → type <code>data</code> → <strong>Create branch: data</strong>. Switch to that branch, click <strong>Add file → Create new file</strong>, name it <code>db.json</code>, paste in <code>[]</code>, and commit. This branch is your database — <code>main</code> (with <code>index.html</code>) will never need to change again.</p>
+          <h3>Create a GitHub repository</h3>
+          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Give it a name (e.g. <code>lab-registry</code>), set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Then upload this <code>index.html</code> file: click <strong>Add file → Upload files</strong>, drop it in, and commit. Your repo now has one file on the <code>main</code> branch.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Enable GitHub Pages</h3>
+          <p>In your repo go to <strong>Settings → Pages</strong>. Under <em>Source</em> select <strong>Deploy from a branch</strong>, choose <code>main</code> and <code>/ (root)</code>, and click Save. After about a minute your registry will be live at:</p>
+          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Create a <code>data</code> branch and add <code>db.json</code></h3>
+          <p>In your repo, click the branch dropdown → type <code>data</code> → <strong>Create branch: data</strong>. Switch to that branch, click <strong>Add file → Create new file</strong>, name it <code>db.json</code>, paste in <code>[]</code>, and commit. This branch is your database — <code>index.html</code> on <code>main</code> will never need to change again.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
         <div class="step-body">
           <h3>Protect the <code>main</code> branch</h3>
           <p>Go to repo → <strong>Settings → Branches → Add branch protection rule</strong>. Set the pattern to <code>main</code> and enable <strong>Restrict who can push to matching branches</strong>. This prevents any token from writing to <code>main</code> — your app file is read-only even if a token is ever stolen.</p>
@@ -474,18 +514,18 @@
       </div>
 
       <div class="step">
-        <div class="step-num">3</div>
+        <div class="step-num">5</div>
         <div class="step-body">
-          <h3>Create a Personal Access Token scoped to <code>data</code></h3>
-          <p>Go to <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Create a token scoped to your registry repo with <strong>Contents: Read and Write</strong>. Colleagues who need write access create their own token the same way — they must be a repo collaborator first (Settings → Collaborators). Read-only visitors need no token at all.</p>
+          <h3>Create a Personal Access Token</h3>
+          <p>Go to <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Create a token scoped to your registry repo with <strong>Contents: Read and Write</strong>. Colleagues who need write access create their own token the same way — they must be added as a repo collaborator first under <strong>Settings → Collaborators</strong>. Read-only visitors need no token at all.</p>
         </div>
       </div>
 
       <div class="step">
-        <div class="step-num">4</div>
+        <div class="step-num">6</div>
         <div class="step-body">
           <h3>Enter your settings below</h3>
-          <p>Fill in the fields and click <strong>Save &amp; test connection</strong>. Settings are stored in your browser only — the token is never sent anywhere except GitHub's API.</p>
+          <p>Fill in the fields and click <strong>Save &amp; test connection</strong>. Settings are stored in your browser only — the token is never sent anywhere except GitHub's API. QR codes on printed labels will automatically point to <code>https://&lt;owner&gt;.github.io/&lt;repo&gt;</code>.</p>
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
             <div class="form-group">
               <label>GitHub owner (username or org)</label>
@@ -498,7 +538,7 @@
             <div class="form-group">
               <label>Branch</label>
               <input type="text" id="gh-branch" placeholder="data" oninput="saveGhConfig()">
-              <span style="font-size:11px;color:var(--text-faint);margin-top:2px">Use a separate <code>data</code> branch so <code>index.html</code> on <code>main</code> stays protected. See setup steps above.</span>
+              <span style="font-size:11px;color:var(--text-faint);margin-top:2px">Use a separate <code>data</code> branch so <code>index.html</code> on <code>main</code> stays protected. See steps above.</span>
             </div>
             <div class="form-group">
               <label>Personal Access Token</label>
@@ -508,18 +548,6 @@
               <button class="btn btn-primary" onclick="testConnection()">Save &amp; test connection</button>
               <span id="gh-status" style="font-size:12px;color:var(--text-muted)"></span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-body">
-          <h3>QR code base URL</h3>
-          <p>Scanning a printed QR opens the registry at this URL and jumps to that entry.</p>
-          <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
-            <input type="text" id="base-url" placeholder="https://username.github.io/lab-registry" style="flex:1;font-size:12px;font-family:var(--mono)" oninput="saveBaseUrl()">
-            <span style="font-size:12px;color:var(--text-muted)">(no trailing /)</span>
           </div>
         </div>
       </div>
@@ -545,27 +573,33 @@
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span></div>
-        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span></div>
-        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span></div>
-        <div class="detail-item"><label>Storage</label><span id="m-storage"></span></div>
-        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span></div>
-        <div class="detail-item"><label>Project</label><span id="m-project"></span></div>
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span><input class="edit-input" id="e-manufacturer" type="text"></div>
+        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span><input class="edit-input" id="e-lot" type="text"></div>
+        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span><input class="edit-input" id="e-expiry" type="date"></div>
+        <div class="detail-item"><label>Storage</label><span id="m-storage"></span><input class="edit-input" id="e-storage" type="text"></div>
+        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span><input class="edit-input" id="e-conc" type="text"></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span><input class="edit-input" id="e-aliquot" type="text"></div>
+        <div class="detail-item"><label>Project</label><span id="m-project"></span><input class="edit-input" id="e-project" type="text"></div>
+        <div class="detail-item"><label>Name</label><span id="m-name-field"></span><input class="edit-input" id="e-name" type="text"></div>
         <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
       </div>
       <div class="detail-notes">
         <label>Notes</label>
         <p id="m-notes"></p>
+        <textarea class="edit-input" id="e-notes"></textarea>
       </div>
-      <div class="qr-section">
-        <div id="qr-container"></div>
-        <div class="qr-label" id="qr-label"></div>
+      <div class="barcode-section">
+        <div id="barcode-container"><svg id="barcode"></svg></div>
+        <div class="barcode-label" id="barcode-label"></div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-danger" onclick="deleteEntry()">Delete</button>
-      <button class="btn btn-primary" onclick="window.print()">Print label QR</button>
+      <button class="btn btn-danger btn-left" onclick="deleteEntry()" id="btn-delete">Delete</button>
+      <button class="btn" onclick="copyEntry()" id="btn-copy">Copy to new</button>
+      <button class="btn" onclick="startEdit()" id="btn-edit">Edit</button>
+      <button class="btn" onclick="cancelEdit()" id="btn-cancel" style="display:none">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()" id="btn-save-edit" style="display:none">Save changes</button>
+      <button class="btn btn-primary" onclick="window.print()" id="btn-print">Print label QR</button>
     </div>
   </div>
 </div>
@@ -653,7 +687,6 @@ async function init() {
   document.getElementById('gh-repo').value   = localStorage.getItem('gh-repo')   || '';
   document.getElementById('gh-branch').value = localStorage.getItem('gh-branch') || 'main';
   document.getElementById('gh-token').value  = localStorage.getItem('gh-token')  || '';
-  document.getElementById('base-url').value  = localStorage.getItem('lab-base-url') || '';
 
   updatePreviewId();
 
@@ -706,12 +739,12 @@ async function save() {
   }
 }
 
-function saveBaseUrl() {
-  localStorage.setItem('lab-base-url', document.getElementById('base-url').value.trim());
-}
-
 function getBaseUrl() {
-  return (document.getElementById('base-url').value.trim() || window.location.origin + window.location.pathname).replace(/\/$/, '');
+  const c = ghConfig();
+  if (c.owner && c.repo) {
+    return `https://${c.owner}.github.io/${c.repo}`;
+  }
+  return (window.location.origin + window.location.pathname).replace(/\/$/, '');
 }
 
 // ── Test connection ──────────────────────────────────────────
@@ -842,6 +875,7 @@ function openModal(id) {
   currentId = id;
   document.getElementById('m-id').textContent = e.id;
   document.getElementById('m-name').textContent = e.name;
+  document.getElementById('m-name-field').textContent = e.name;
   document.getElementById('m-manufacturer').textContent = e.manufacturer || '—';
   document.getElementById('m-lot').textContent = e.lot || '—';
   document.getElementById('m-expiry').textContent = e.expiry || '—';
@@ -852,12 +886,95 @@ function openModal(id) {
   document.getElementById('m-date').textContent = e.added || '—';
   document.getElementById('m-notes').textContent = e.notes || '—';
   const url = getBaseUrl() + '/#' + e.id;
-  document.getElementById('qr-label').textContent = url;
-  const qrDiv = document.getElementById('qr-container');
-  qrDiv.innerHTML = '';
-  new QRCode(qrDiv, { text: url, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.M });
+  document.getElementById('barcode-label').textContent = url;
+  JsBarcode('#barcode', e.id, {
+    format: 'CODE128',
+    width: 2,
+    height: 60,
+    displayValue: true,
+    font: 'IBM Plex Mono',
+    fontSize: 12,
+    margin: 8,
+    background: '#ffffff',
+    lineColor: '#1a1916',
+  });
+  cancelEdit(); // ensure we're in view mode
   document.getElementById('modal-overlay').classList.add('open');
   window.location.hash = id;
+}
+
+function startEdit() {
+  const e = db.find(x => x.id === currentId);
+  if (!e) return;
+  // Populate edit inputs
+  document.getElementById('e-name').value         = e.name || '';
+  document.getElementById('e-manufacturer').value = e.manufacturer || '';
+  document.getElementById('e-lot').value          = e.lot || '';
+  document.getElementById('e-expiry').value       = e.expiry || '';
+  document.getElementById('e-storage').value      = e.storage || '';
+  document.getElementById('e-conc').value         = e.conc || '';
+  document.getElementById('e-aliquot').value      = e.aliquot || '';
+  document.getElementById('e-project').value      = e.project || '';
+  document.getElementById('e-notes').value        = e.notes || '';
+  document.querySelector('.modal').classList.add('editing');
+  document.getElementById('btn-edit').style.display      = 'none';
+  document.getElementById('btn-copy').style.display      = 'none';
+  document.getElementById('btn-print').style.display     = 'none';
+  document.getElementById('btn-delete').style.display    = 'none';
+  document.getElementById('btn-cancel').style.display    = '';
+  document.getElementById('btn-save-edit').style.display = '';
+}
+
+function cancelEdit() {
+  document.querySelector('.modal').classList.remove('editing');
+  document.getElementById('btn-edit').style.display      = '';
+  document.getElementById('btn-copy').style.display      = '';
+  document.getElementById('btn-print').style.display     = '';
+  document.getElementById('btn-delete').style.display    = '';
+  document.getElementById('btn-cancel').style.display    = 'none';
+  document.getElementById('btn-save-edit').style.display = 'none';
+}
+
+async function saveEdit() {
+  const idx = db.findIndex(x => x.id === currentId);
+  if (idx === -1) return;
+  const name = document.getElementById('e-name').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  db[idx] = {
+    ...db[idx],
+    name,
+    manufacturer: document.getElementById('e-manufacturer').value.trim(),
+    lot:          document.getElementById('e-lot').value.trim(),
+    expiry:       document.getElementById('e-expiry').value,
+    storage:      document.getElementById('e-storage').value.trim(),
+    conc:         document.getElementById('e-conc').value.trim(),
+    aliquot:      document.getElementById('e-aliquot').value.trim(),
+    project:      document.getElementById('e-project').value.trim(),
+    notes:        document.getElementById('e-notes').value.trim(),
+  };
+  cancelEdit();
+  openModal(currentId); // refresh display
+  renderList();
+  await save();
+}
+
+function copyEntry() {
+  const e = db.find(x => x.id === currentId);
+  if (!e) return;
+  closeModal();
+  // Pre-fill the add form with this entry's values (except id and added date)
+  document.getElementById('f-type').value         = e.type || 'R';
+  document.getElementById('f-name').value         = e.name || '';
+  document.getElementById('f-manufacturer').value = e.manufacturer || '';
+  document.getElementById('f-lot').value          = e.lot || '';
+  document.getElementById('f-expiry').value       = e.expiry || '';
+  document.getElementById('f-storage').value      = e.storage || '';
+  document.getElementById('f-conc').value         = e.conc || '';
+  document.getElementById('f-aliquot').value      = e.aliquot || '';
+  document.getElementById('f-project').value      = e.project || '';
+  document.getElementById('f-notes').value        = e.notes || '';
+  showTab('add');
+  updatePreviewId();
 }
 
 function closeModal(e) {
