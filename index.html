@@ -1,8 +1,10 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab Registry</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style type="text/css"></style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
@@ -373,13 +375,13 @@
 
 <div class="container">
   <div class="tabs">
-    <button class="tab" onclick="showTab('browse')">Browse</button>
+    <button class="tab active" onclick="showTab('browse')">Browse</button>
     <button class="tab" onclick="showTab('add')">Add entry</button>
-    <button class="tab active" onclick="showTab('setup')">Setup &amp; export</button>
+    <button class="tab" onclick="showTab('setup')">Setup & export</button>
   </div>
 
   <!-- BROWSE -->
-  <div class="view" id="view-browse">
+  <div class="view active" id="view-browse">
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search by name, ID, lot, manufacturer…" oninput="renderList()">
       <select id="filter-type" onchange="renderList()">
@@ -388,31 +390,7 @@
         <option value="S">Samples (S)</option>
       </select>
     </div>
-    <div class="registry-list" id="registry-list"><div class="reg-item" onclick="openModal('R-2026-0003')">
-      <div class="reg-id">
-        <div class="type-badge badge-R">R</div><br>
-        R-2026-0003
-      </div>
-      <div class="reg-main">
-        <div class="reg-name">My reagent 3</div>
-        <div class="reg-meta">schmidt</div>
-      </div>
-      <div class="reg-right">
-        <div class="reg-expiry ">—</div>
-      </div>
-    </div><div class="reg-item" onclick="openModal('R-2026-0001')">
-      <div class="reg-id">
-        <div class="type-badge badge-R">R</div><br>
-        R-2026-0001
-      </div>
-      <div class="reg-main">
-        <div class="reg-name">PBS 10x</div>
-        <div class="reg-meta">home</div>
-      </div>
-      <div class="reg-right">
-        <div class="reg-expiry ">—</div>
-      </div>
-    </div></div>
+    <div class="registry-list" id="registry-list"></div>
   </div>
 
   <!-- ADD -->
@@ -428,7 +406,7 @@
         </div>
         <div class="form-group">
           <label>Generated ID</label>
-          <div class="preview-id" id="preview-id">R-2026-0004</div>
+          <div class="preview-id" id="preview-id">R-2024-0001</div>
         </div>
         <div class="form-group full">
           <label>Name *</label>
@@ -475,50 +453,70 @@
   </div>
 
   <!-- SETUP -->
-  <div class="view active" id="view-setup">
+  <div class="view" id="view-setup">
     <div class="setup-card">
-      <h2>GitHub Pages setup</h2>
+      <h2>GitHub sync configuration</h2>
 
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
-          <h3>Create a GitHub repository</h3>
-          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>, create a new public repository (e.g. <code>lab-registry</code>). You only need to do this once.</p>
+          <h3>Create a <code>data</code> branch and add <code>db.json</code></h3>
+          <p>In your repo, click the branch dropdown → type <code>data</code> → <strong>Create branch: data</strong>. Switch to that branch, click <strong>Add file → Create new file</strong>, name it <code>db.json</code>, paste in <code>[]</code>, and commit. This branch is your database — <code>main</code> (with <code>index.html</code>) will never need to change again.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <h3>Upload this file</h3>
-          <p>Click <strong>Add file → Upload files</strong> in your repo and upload <code>lab-registry.html</code>. Rename it to <code>index.html</code> so it loads automatically.</p>
+          <h3>Protect the <code>main</code> branch</h3>
+          <p>Go to repo → <strong>Settings → Branches → Add branch protection rule</strong>. Set the pattern to <code>main</code> and enable <strong>Restrict who can push to matching branches</strong>. This prevents any token from writing to <code>main</code> — your app file is read-only even if a token is ever stolen.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
-          <h3>Enable GitHub Pages</h3>
-          <p>Go to your repo → <strong>Settings → Pages</strong>. Under <em>Source</em>, select <code>main</code> branch and <code>/ (root)</code>. Click Save. Your URL will be:</p>
-          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/</div>
+          <h3>Create a Personal Access Token scoped to <code>data</code></h3>
+          <p>Go to <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Create a token scoped to your registry repo with <strong>Contents: Read and Write</strong>. Colleagues who need write access create their own token the same way — they must be a repo collaborator first (Settings → Collaborators). Read-only visitors need no token at all.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <h3>Workflow for adding entries</h3>
-          <p>Add entries here on your computer → click <strong>Export HTML</strong> below → this downloads an updated copy of the file with your data baked in → upload/replace on GitHub → the page updates in ~1 minute. The QR codes you print will always point to the live URL.</p>
+          <h3>Enter your settings below</h3>
+          <p>Fill in the fields and click <strong>Save &amp; test connection</strong>. Settings are stored in your browser only — the token is never sent anywhere except GitHub's API.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+            <div class="form-group">
+              <label>GitHub owner (username or org)</label>
+              <input type="text" id="gh-owner" placeholder="e.g. jsmith" oninput="saveGhConfig()">
+            </div>
+            <div class="form-group">
+              <label>Repository name</label>
+              <input type="text" id="gh-repo" placeholder="e.g. lab-registry" oninput="saveGhConfig()">
+            </div>
+            <div class="form-group">
+              <label>Branch</label>
+              <input type="text" id="gh-branch" placeholder="data" oninput="saveGhConfig()">
+              <span style="font-size:11px;color:var(--text-faint);margin-top:2px">Use a separate <code>data</code> branch so <code>index.html</code> on <code>main</code> stays protected. See setup steps above.</span>
+            </div>
+            <div class="form-group">
+              <label>Personal Access Token</label>
+              <input type="text" id="gh-token" placeholder="github_pat_…" autocomplete="off" oninput="saveGhConfig()" style="font-family:var(--mono);font-size:12px;">
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="btn btn-primary" onclick="testConnection()">Save &amp; test connection</button>
+              <span id="gh-status" style="font-size:12px;color:var(--text-muted)"></span>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">5</div>
         <div class="step-body">
-          <h3>QR code URL pattern</h3>
-          <p>When you print a label, the QR encodes a URL like:</p>
-          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/#R-2024-0001</div>
-          <p style="margin-top:8px">Scanning opens the registry and jumps straight to that entry. Update the base URL below after setting up.</p>
+          <h3>QR code base URL</h3>
+          <p>Scanning a printed QR opens the registry at this URL and jumps to that entry.</p>
           <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
             <input type="text" id="base-url" placeholder="https://username.github.io/lab-registry" style="flex:1;font-size:12px;font-family:var(--mono)" oninput="saveBaseUrl()">
             <span style="font-size:12px;color:var(--text-muted)">(no trailing /)</span>
@@ -527,11 +525,10 @@
       </div>
 
       <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="exportHTML()">Export HTML with data</button>
         <button class="btn" onclick="importJSON()">Import backup JSON</button>
         <button class="btn" onclick="exportJSON()">Export backup JSON</button>
       </div>
-      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Export HTML bakes all current entries into a downloadable file ready to push to GitHub.</p>
+      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Changes are saved directly to <code>db.json</code> in your GitHub repo. Use backup JSON if you want a local copy.</p>
     </div>
   </div>
 </div>
@@ -541,29 +538,29 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <div class="modal-id" id="m-id">R-2026-0003</div>
-        <div class="modal-name" id="m-name">My reagent 3</div>
+        <div class="modal-id" id="m-id"></div>
+        <div class="modal-name" id="m-name"></div>
       </div>
-      <button class="close-btn" onclick="closeModal()">×</button>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer">schmidt</span></div>
-        <div class="detail-item"><label>Lot number</label><span id="m-lot">—</span></div>
-        <div class="detail-item"><label>Expiry</label><span id="m-expiry">—</span></div>
-        <div class="detail-item"><label>Storage</label><span id="m-storage">—</span></div>
-        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc">4 mg</span></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot">—</span></div>
-        <div class="detail-item"><label>Project</label><span id="m-project">—</span></div>
-        <div class="detail-item"><label>Added</label><span id="m-date">2026-04-04</span></div>
+        <div class="detail-item"><label>Manufacturer</label><span id="m-manufacturer"></span></div>
+        <div class="detail-item"><label>Lot number</label><span id="m-lot"></span></div>
+        <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span></div>
+        <div class="detail-item"><label>Storage</label><span id="m-storage"></span></div>
+        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span></div>
+        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span></div>
+        <div class="detail-item"><label>Project</label><span id="m-project"></span></div>
+        <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
       </div>
       <div class="detail-notes">
         <label>Notes</label>
-        <p id="m-notes">—</p>
+        <p id="m-notes"></p>
       </div>
       <div class="qr-section">
-        <div id="qr-container" title="https://schmidtdav.github.io/specim/#R-2026-0003"><canvas width="160" height="160" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,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"></div>
-        <div class="qr-label" id="qr-label">https://schmidtdav.github.io/specim/#R-2026-0003</div>
+        <div id="qr-container"></div>
+        <div class="qr-label" id="qr-label"></div>
       </div>
     </div>
     <div class="modal-footer">
@@ -574,72 +571,139 @@
 </div>
 
 <script>
-// ── Data store ──────────────────────────────────────────────
-// REGISTRY_DATA is replaced on export — do not rename.
-const REGISTRY_DATA = [
-  {
-    "id": "R-2026-0003",
-    "type": "R",
-    "name": "My reagent 3",
-    "manufacturer": "schmidt",
-    "lot": "",
-    "expiry": "",
-    "storage": "",
-    "conc": "4 mg",
-    "aliquot": "",
-    "project": "",
-    "notes": "",
-    "added": "2026-04-04"
-  },
-  {
-    "id": "R-2026-0001",
-    "type": "R",
-    "name": "PBS 10x",
-    "manufacturer": "home",
-    "lot": "",
-    "expiry": "",
-    "storage": "",
-    "conc": "",
-    "aliquot": "1",
-    "project": "",
-    "notes": "",
-    "added": "2026-04-04"
-  }
-];
-const USED_IDS_DATA = ["R-2026-0002","R-2026-0001","R-2026-0003"];
-// USED_IDS_DATA is replaced on export — do not rename.
-const USED_IDS_DATA = [];
+// ── GitHub config ────────────────────────────────────────────
+// Stored in localStorage: gh-owner, gh-repo, gh-branch, gh-token
+// db.json SHA cached in memory to avoid extra round-trips.
+let dbSha = null;
 
+function ghConfig() {
+  return {
+    owner:  localStorage.getItem('gh-owner')  || '',
+    repo:   localStorage.getItem('gh-repo')   || '',
+    branch: localStorage.getItem('gh-branch') || 'data',
+    token:  localStorage.getItem('gh-token')  || '',
+  };
+}
+
+function saveGhConfig() {
+  localStorage.setItem('gh-owner',  document.getElementById('gh-owner').value.trim());
+  localStorage.setItem('gh-repo',   document.getElementById('gh-repo').value.trim());
+  localStorage.setItem('gh-branch', document.getElementById('gh-branch').value.trim() || 'main');
+  localStorage.setItem('gh-token',  document.getElementById('gh-token').value.trim());
+}
+
+function ghConfigured() {
+  const c = ghConfig();
+  return c.owner && c.repo && c.token;
+}
+
+function ghHeaders() {
+  return {
+    'Authorization': 'Bearer ' + ghConfig().token,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+}
+
+function ghFileUrl() {
+  const c = ghConfig();
+  return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json?ref=${c.branch}`;
+}
+
+// ── GitHub read ──────────────────────────────────────────────
+async function ghRead() {
+  const res = await fetch(ghFileUrl(), { headers: ghHeaders() });
+  if (!res.ok) throw new Error(`GitHub read failed: ${res.status} ${res.statusText}`);
+  const json = await res.json();
+  dbSha = json.sha;
+  const text = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
+  return JSON.parse(text);
+}
+
+// ── GitHub write ─────────────────────────────────────────────
+async function ghWrite(data) {
+  const c = ghConfig();
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const body = {
+    message: `Update db.json [${new Date().toISOString().slice(0,10)}]`,
+    content,
+    branch: c.branch,
+    sha: dbSha,
+  };
+  const res = await fetch(
+    `https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json`,
+    { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `GitHub write failed: ${res.status}`);
+  }
+  const json = await res.json();
+  dbSha = json.content.sha; // update SHA for next write
+}
+
+// ── Data store ───────────────────────────────────────────────
 let db = [];
-let usedIds = new Set();
 let currentId = null;
 
-function init() {
-  // Load from embedded data or localStorage
-  const stored = localStorage.getItem('lab-registry');
-  if (stored) {
-    try { db = JSON.parse(stored); } catch(e) { db = [...REGISTRY_DATA]; }
-  } else {
-    db = [...REGISTRY_DATA];
-  }
-  // Load the permanent ID ledger (grows only, never shrinks on delete)
-  try {
-    const storedIds = JSON.parse(localStorage.getItem('lab-used-ids') || '[]');
-    usedIds = new Set([...storedIds, ...USED_IDS_DATA, ...db.map(e => e.id)]);
-  } catch(e) {
-    usedIds = new Set([...USED_IDS_DATA, ...db.map(e => e.id)]);
-  }
-  const url = localStorage.getItem('lab-base-url') || '';
-  document.getElementById('base-url').value = url;
+async function init() {
+  // Populate setup fields from localStorage
+  document.getElementById('gh-owner').value  = localStorage.getItem('gh-owner')  || '';
+  document.getElementById('gh-repo').value   = localStorage.getItem('gh-repo')   || '';
+  document.getElementById('gh-branch').value = localStorage.getItem('gh-branch') || 'main';
+  document.getElementById('gh-token').value  = localStorage.getItem('gh-token')  || '';
+  document.getElementById('base-url').value  = localStorage.getItem('lab-base-url') || '';
+
   updatePreviewId();
+
+  if (ghConfigured()) {
+    setStatus('Loading from GitHub…', 'var(--text-muted)');
+    try {
+      db = await ghRead();
+      setStatus('Synced with GitHub ✓', 'var(--accent-c)');
+      localStorage.setItem('lab-registry-cache', JSON.stringify(db));
+    } catch(e) {
+      setStatus('GitHub load failed — using local cache', '#d67e00');
+      const cached = localStorage.getItem('lab-registry-cache');
+      db = cached ? JSON.parse(cached) : [];
+    }
+  } else {
+    // Fall back to local cache if GitHub not configured
+    const cached = localStorage.getItem('lab-registry-cache');
+    db = cached ? JSON.parse(cached) : [];
+    if (!cached) setStatus('Configure GitHub in Setup & export to sync data.', 'var(--text-muted)');
+  }
+
   renderList();
   handleHash();
 }
 
-function save() {
-  localStorage.setItem('lab-registry', JSON.stringify(db));
-  // Persist the ID ledger separately — never cleared on delete
-  localStorage.setItem('lab-used-ids', JSON.stringify([...usedIds]));
+// Show a sync status badge in the header
+function setStatus(msg, color) {
+  let badge = document.getElementById('sync-status');
+  if (!badge) {
+    badge = document.createElement('span');
+    badge.id = 'sync-status';
+    badge.style.cssText = 'font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:3px;border:1px solid var(--border);';
+    document.querySelector('.header-actions').prepend(badge);
+  }
+  badge.textContent = msg;
+  badge.style.color = color;
+}
+
+// ── Persist: write to GitHub + update local cache ────────────
+async function save() {
+  localStorage.setItem('lab-registry-cache', JSON.stringify(db));
+  if (!ghConfigured()) return;
+  setStatus('Saving…', 'var(--text-muted)');
+  try {
+    await ghWrite(db);
+    setStatus('Saved ✓', 'var(--accent-c)');
+  } catch(e) {
+    setStatus('Save failed: ' + e.message, '#c0392b');
+    throw e;
+  }
 }
 
 function saveBaseUrl() {
@@ -650,19 +714,32 @@ function getBaseUrl() {
   return (document.getElementById('base-url').value.trim() || window.location.origin + window.location.pathname).replace(/\/$/, '');
 }
 
+// ── Test connection ──────────────────────────────────────────
+async function testConnection() {
+  saveGhConfig();
+  const status = document.getElementById('gh-status');
+  if (!ghConfigured()) { status.textContent = '⚠ Fill in all fields first.'; status.style.color = '#d67e00'; return; }
+  status.textContent = 'Testing…'; status.style.color = 'var(--text-muted)';
+  try {
+    db = await ghRead();
+    localStorage.setItem('lab-registry-cache', JSON.stringify(db));
+    status.textContent = `✓ Connected — ${db.length} entries loaded.`;
+    status.style.color = 'var(--accent-c)';
+    setStatus('Synced with GitHub ✓', 'var(--accent-c)');
+    renderList();
+  } catch(e) {
+    status.textContent = '✗ ' + e.message;
+    status.style.color = '#c0392b';
+  }
+}
+
 // ── ID generation ────────────────────────────────────────────
 function nextId(type) {
   const year = new Date().getFullYear();
-  // Find the highest number ever used for this type+year (including deleted entries)
-  const prefix = type + '-' + year + '-';
-  let max = 0;
-  usedIds.forEach(id => {
-    if (id.startsWith(prefix)) {
-      const n = parseInt(id.split('-')[2]) || 0;
-      if (n > max) max = n;
-    }
-  });
-  return `${type}-${year}-${String(max + 1).padStart(4, '0')}`;
+  const same = db.filter(e => e.id.startsWith(type + '-' + year + '-'));
+  const nums = same.map(e => parseInt(e.id.split('-')[2]) || 0);
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return `${type}-${year}-${String(next).padStart(4, '0')}`;
 }
 
 function updatePreviewId() {
@@ -671,16 +748,13 @@ function updatePreviewId() {
 }
 
 // ── CRUD ─────────────────────────────────────────────────────
-function addEntry() {
+async function addEntry() {
   const name = document.getElementById('f-name').value.trim();
   if (!name) { alert('Name is required.'); return; }
   const type = document.getElementById('f-type').value;
   const id = nextId(type);
-  usedIds.add(id); // Register immediately — survives future deletes
   const entry = {
-    id,
-    type,
-    name,
+    id, type, name,
     manufacturer: document.getElementById('f-manufacturer').value.trim(),
     lot:          document.getElementById('f-lot').value.trim(),
     expiry:       document.getElementById('f-expiry').value,
@@ -692,20 +766,24 @@ function addEntry() {
     added:        new Date().toISOString().slice(0, 10),
   };
   db.unshift(entry);
-  save();
   clearForm();
   showTab('browse');
   renderList();
-  setTimeout(() => openModal(id), 100);
+  try {
+    await save();
+    setTimeout(() => openModal(id), 100);
+  } catch(e) {
+    // save() already updated status; entry is still in local db
+  }
 }
 
-function deleteEntry() {
+async function deleteEntry() {
   if (!currentId) return;
   if (!confirm('Delete ' + currentId + '? This cannot be undone.')) return;
   db = db.filter(e => e.id !== currentId);
-  save();
   closeModal();
   renderList();
+  await save();
 }
 
 function clearForm() {
@@ -805,27 +883,18 @@ function showTab(name) {
 }
 
 // ── Export / Import ──────────────────────────────────────────
-function exportHTML() {
-  const src = document.documentElement.outerHTML;
-  const marker = 'const REGISTRY_DATA = [];';
-  const replacement = 'const REGISTRY_DATA = ' + JSON.stringify(db, null, 2) + ';\n' +
-    'const USED_IDS_DATA = ' + JSON.stringify([...usedIds]) + ';';
-  const out = src.replace(marker, replacement);
-  download('lab-registry.html', out, 'text/html');
-}
-
 function exportJSON() {
   download('lab-registry-backup.json', JSON.stringify(db, null, 2), 'application/json');
 }
 
-function importJSON() {
+async function importJSON() {
   const input = document.createElement('input');
   input.type = 'file'; input.accept = '.json';
-  input.onchange = e => {
+  input.onchange = async e => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => {
+    reader.onload = async ev => {
       try {
         const data = JSON.parse(ev.target.result);
         if (!Array.isArray(data)) throw new Error('Not an array');
@@ -833,7 +902,8 @@ function importJSON() {
           const existingIds = new Set(db.map(e => e.id));
           const newEntries = data.filter(e => !existingIds.has(e.id));
           db = [...db, ...newEntries];
-          save(); renderList();
+          renderList();
+          await save();
           alert('Imported ' + newEntries.length + ' new entries.');
         }
       } catch(err) { alert('Invalid JSON file.'); }
@@ -853,6 +923,5 @@ function download(filename, content, type) {
 // ── Boot ─────────────────────────────────────────────────────
 window.addEventListener('load', init);
 </script>
-
-
-</body></html>
+</body>
+</html>
