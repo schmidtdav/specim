@@ -524,21 +524,20 @@
       <div class="step">
         <div class="step-num">6</div>
         <div class="step-body">
-          <h3>Enter your settings below</h3>
-          <p>Fill in the fields and click <strong>Save &amp; test connection</strong>. Settings are stored in your browser only — the token is never sent anywhere except GitHub's API. QR codes on printed labels will automatically point to <code>https://&lt;owner&gt;.github.io/&lt;repo&gt;</code>.</p>
+          <h3>Enter your Personal Access Token</h3>
+          <p>The repo is pre-configured below. Paste your token and click <strong>Save &amp; test connection</strong>. The token is stored in your browser only — never sent anywhere except GitHub's API. Barcodes on printed labels automatically point to <code>https://schmidtdav.github.io/specim</code>.</p>
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
             <div class="form-group">
-              <label>GitHub owner (username or org)</label>
-              <input type="text" id="gh-owner" placeholder="e.g. jsmith" oninput="saveGhConfig()">
+              <label>GitHub owner</label>
+              <input type="text" value="schmidtdav" disabled style="opacity:0.5;cursor:default;">
             </div>
             <div class="form-group">
-              <label>Repository name</label>
-              <input type="text" id="gh-repo" placeholder="e.g. lab-registry" oninput="saveGhConfig()">
+              <label>Repository</label>
+              <input type="text" value="specim" disabled style="opacity:0.5;cursor:default;">
             </div>
             <div class="form-group">
               <label>Branch</label>
-              <input type="text" id="gh-branch" placeholder="data" oninput="saveGhConfig()">
-              <span style="font-size:11px;color:var(--text-faint);margin-top:2px">Use a separate <code>data</code> branch so <code>index.html</code> on <code>main</code> stays protected. See steps above.</span>
+              <input type="text" value="data" disabled style="opacity:0.5;cursor:default;">
             </div>
             <div class="form-group">
               <label>Personal Access Token</label>
@@ -606,29 +605,29 @@
 
 <script>
 // ── GitHub config ────────────────────────────────────────────
-// Stored in localStorage: gh-owner, gh-repo, gh-branch, gh-token
-// db.json SHA cached in memory to avoid extra round-trips.
+// Owner, repo and branch are fixed — only the token is user-supplied.
+const GH_OWNER  = 'schmidtdav';
+const GH_REPO   = 'specim';
+const GH_BRANCH = 'data';
+
 let dbSha = null;
 
 function ghConfig() {
   return {
-    owner:  localStorage.getItem('gh-owner')  || '',
-    repo:   localStorage.getItem('gh-repo')   || '',
-    branch: localStorage.getItem('gh-branch') || 'data',
-    token:  localStorage.getItem('gh-token')  || '',
+    owner:  GH_OWNER,
+    repo:   GH_REPO,
+    branch: GH_BRANCH,
+    token:  localStorage.getItem('gh-token') || '',
   };
 }
 
 function saveGhConfig() {
-  localStorage.setItem('gh-owner',  document.getElementById('gh-owner').value.trim());
-  localStorage.setItem('gh-repo',   document.getElementById('gh-repo').value.trim());
-  localStorage.setItem('gh-branch', document.getElementById('gh-branch').value.trim() || 'main');
-  localStorage.setItem('gh-token',  document.getElementById('gh-token').value.trim());
+  // Only the token is user-configurable
+  localStorage.setItem('gh-token', document.getElementById('gh-token').value.trim());
 }
 
 function ghConfigured() {
-  const c = ghConfig();
-  return c.owner && c.repo && c.token;
+  return !!ghConfig().token;
 }
 
 function ghHeaders() {
@@ -682,11 +681,8 @@ let db = [];
 let currentId = null;
 
 async function init() {
-  // Populate setup fields from localStorage
-  document.getElementById('gh-owner').value  = localStorage.getItem('gh-owner')  || '';
-  document.getElementById('gh-repo').value   = localStorage.getItem('gh-repo')   || '';
-  document.getElementById('gh-branch').value = localStorage.getItem('gh-branch') || 'main';
-  document.getElementById('gh-token').value  = localStorage.getItem('gh-token')  || '';
+  // Only the token is user-supplied; owner/repo/branch are hardcoded
+  document.getElementById('gh-token').value = localStorage.getItem('gh-token') || '';
 
   updatePreviewId();
 
