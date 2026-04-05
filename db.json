@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "R-2026-0001",
+    "type": "R",
+    "name": "test reagent 001",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "conc": "",
+    "aliquot": "",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-05"
+  }
+]
