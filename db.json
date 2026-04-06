@@ -11,6 +11,19 @@
     "aliquot": "",
     "project": "",
     "notes": "",
-    "added": "2026-04-05"
+    "added": "2026-04-05",
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "aliquots": [
+      {
+        "id": "R-2026-0001-A1",
+        "vol": "",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      }
+    ]
   }
 ]
