@@ -16,322 +16,201 @@
     --text: #1a1916;
     --text-muted: #6b6860;
     --text-faint: #a09d96;
-    --accent: #1a1916;
     --accent-r: #c8401a;
     --accent-s: #1a5ca8;
     --accent-c: #1a7a3c;
-    --tag-r-bg: #fdf0ec;
-    --tag-r-text: #8c2c10;
-    --tag-s-bg: #ecf2fd;
-    --tag-s-text: #0e3d72;
+    --tag-r-bg: #fdf0ec; --tag-r-text: #8c2c10;
+    --tag-s-bg: #ecf2fd; --tag-s-text: #0e3d72;
+    --warn: #d67e00;
+    --danger: #c0392b;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'IBM Plex Sans', sans-serif;
-    --radius: 4px;
-    --radius-lg: 8px;
+    --radius: 4px; --radius-lg: 8px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; }
 
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* ── Header ── */
-  header {
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent-r);
-  }
+  /* Header */
+  header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .logo { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-r); }
   .header-actions { display: flex; gap: 8px; align-items: center; }
 
-  /* ── Layout ── */
-  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+  /* Alerts banner */
+  #alerts-banner { display: none; background: #fffbf0; border-bottom: 1px solid #f0d080; padding: 10px 24px; font-size: 12px; color: var(--warn); font-family: var(--mono); cursor: pointer; }
+  #alerts-banner .alert-dismiss { float: right; cursor: pointer; color: var(--text-faint); }
 
-  /* ── Tabs ── */
-  .tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 28px;
-  }
-  .tab {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    color: var(--text-muted);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: color 0.15s, border-color 0.15s;
-  }
+  /* Layout */
+  .container { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Tabs */
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .tab { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; padding: 10px 20px; cursor: pointer; border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; }
   .tab.active { color: var(--text); border-bottom-color: var(--text); }
   .tab:hover:not(.active) { color: var(--text); }
-
+  .tab-badge { display: inline-block; background: var(--accent-r); color: white; font-size: 9px; border-radius: 8px; padding: 1px 5px; margin-left: 5px; vertical-align: middle; line-height: 1.4; }
   .view { display: none; }
   .view.active { display: block; }
 
-  /* ── Search ── */
-  .search-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .search-bar input {
-    flex: 1;
-    font-family: var(--sans);
-    font-size: 14px;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .search-bar input:focus { border-color: var(--border-strong); }
-  .search-bar input::placeholder { color: var(--text-faint); }
+  /* Toolbar */
+  .toolbar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .toolbar input[type=text] { flex: 1; min-width: 180px; font-family: var(--sans); font-size: 14px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); outline: none; transition: border-color .15s; }
+  .toolbar input[type=text]:focus { border-color: var(--border-strong); }
+  .toolbar input[type=text]::placeholder { color: var(--text-faint); }
+  select { font-family: var(--sans); font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
 
-  select {
-    font-family: var(--sans);
-    font-size: 13px;
-    padding: 9px 10px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text);
-    outline: none;
-    cursor: pointer;
-  }
+  /* Reagent group */
+  .reagent-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; transition: border-color .15s; }
+  .reagent-group:hover { border-color: var(--border-strong); }
+  .reagent-header { display: grid; grid-template-columns: 120px 1fr 80px auto; gap: 12px; align-items: center; padding: 14px 16px; cursor: pointer; user-select: none; }
+  .reagent-header.has-alerts { border-left: 3px solid var(--warn); }
+  .reagent-header.has-expired { border-left: 3px solid var(--danger); }
 
-  /* ── Registry table ── */
-  .registry-list { display: flex; flex-direction: column; gap: 1px; }
-
-  .reg-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: grid;
-    grid-template-columns: 130px 1fr auto;
-    gap: 12px;
-    align-items: center;
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .reg-item:hover { border-color: var(--border-strong); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-
-  .reg-id {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .type-badge {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-bottom: 4px;
-  }
+  .reg-id { font-family: var(--mono); font-size: 12px; font-weight: 500; }
+  .type-badge { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px; margin-bottom: 4px; }
   .badge-R { background: var(--tag-r-bg); color: var(--tag-r-text); }
   .badge-S { background: var(--tag-s-bg); color: var(--tag-s-text); }
 
   .reg-main { min-width: 0; }
-  .reg-name { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .reg-name { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
   .reg-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .expand-icon { font-size: 9px; color: var(--text-faint); transition: transform .2s; display: inline-block; flex-shrink: 0; }
+  .reagent-group.open .expand-icon { transform: rotate(90deg); }
+
+  .reg-supply { text-align: center; }
+  .supply-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .supply-bar-wrap { width: 56px; height: 4px; background: var(--border); border-radius: 2px; margin: 4px auto 0; overflow: hidden; }
+  .supply-bar { height: 100%; border-radius: 2px; background: var(--accent-c); transition: width .3s; }
+  .supply-bar.low { background: var(--warn); }
+  .supply-bar.critical { background: var(--danger); }
 
   .reg-right { text-align: right; flex-shrink: 0; }
   .reg-expiry { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
-  .reg-expiry.expired { color: #c0392b; }
-  .reg-expiry.soon { color: #d67e00; }
+  .reg-expiry.expired { color: var(--danger); }
+  .reg-expiry.soon { color: var(--warn); }
 
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-    font-size: 13px;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-  }
+  /* Aliquot list */
+  .aliquot-list { display: none; border-top: 1px solid var(--border); padding: 8px 16px 12px; background: #fafaf8; }
+  .reagent-group.open .aliquot-list { display: block; }
+
+  .aliquot-item { display: grid; grid-template-columns: 160px 80px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid transparent; border-radius: var(--radius); cursor: pointer; margin-bottom: 2px; transition: background .1s, border-color .1s; }
+  .aliquot-item:hover { background: var(--surface); border-color: var(--border); }
+  .aliquot-item.consumed { opacity: .45; }
+  .aliquot-item.thawed { background: #fffdf0; border-color: #f0e08888; }
+
+  .aliquot-id { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .aliquot-vol { font-size: 12px; }
+
+  .status-pill { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .05em; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+  .pill-thawed { background: #fff3cd; color: #856404; }
+  .pill-consumed { background: #f0f0ee; color: #888; }
+  .pill-available { background: #e8f5e9; color: #2e7d32; }
+
+  .aliquot-actions { display: flex; gap: 4px; justify-content: flex-end; }
+  .icon-btn { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 3px 8px; font-size: 11px; font-family: var(--mono); color: var(--text-muted); cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .icon-btn:hover { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
+  .icon-btn.active { background: var(--text); color: var(--surface); border-color: var(--text); }
+
+  .key-reagent-tag { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px; background: #f3e8ff; color: #6b21a8; text-transform: uppercase; flex-shrink: 0; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 13px; border: 1px dashed var(--border); border-radius: var(--radius-lg); background: var(--surface); }
   .empty-state strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 6px; }
 
-  /* ── Add form ── */
-  .form-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+  /* Form */
+  .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; }
+  .form-section-title { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .form-section-title:first-child { margin-top: 0; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .form-group { display: flex; flex-direction: column; gap: 5px; }
   .form-group.full { grid-column: 1 / -1; }
-  label { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; font-family: var(--mono); }
-  input[type=text], input[type=date], textarea, select.full {
-    font-family: var(--sans);
-    font-size: 14px;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s, background 0.15s;
+  label { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: .04em; text-transform: uppercase; font-family: var(--mono); }
+  input[type=text], input[type=date], input[type=number], textarea {
+    font-family: var(--sans); font-size: 14px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); outline: none; transition: border-color .15s, background .15s;
   }
-  input[type=text]:focus, input[type=date]:focus, textarea:focus { border-color: var(--border-strong); background: var(--surface); }
+  input[type=text]:focus, input[type=date]:focus, input[type=number]:focus, textarea:focus { border-color: var(--border-strong); background: var(--surface); }
   textarea { resize: vertical; min-height: 72px; }
+  input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--text); }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+  .checkbox-row label { text-transform: none; letter-spacing: 0; font-size: 13px; font-family: var(--sans); font-weight: 400; color: var(--text); }
 
-  .preview-id {
-    font-family: var(--mono);
-    font-size: 18px;
-    font-weight: 500;
-    padding: 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    text-align: center;
-    letter-spacing: 0.05em;
-  }
+  .preview-id { font-family: var(--mono); font-size: 13px; font-weight: 500; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); text-align: center; letter-spacing: .04em; color: var(--text-muted); min-height: 44px; display: flex; align-items: center; justify-content: center; }
 
-  /* ── Buttons ── */
-  .btn {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 9px 18px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    transition: background 0.15s, border-color 0.15s;
-    text-decoration: none;
-    display: inline-block;
-  }
+  /* Aliquot builder */
+  .aliquot-builder { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 12px; }
+  .aliquot-builder-header { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; padding: 7px 12px; background: var(--bg); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .05em; }
+  .aliquot-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; padding: 6px 12px; border-bottom: 1px solid var(--border); align-items: center; }
+  .aliquot-row:last-child { border-bottom: none; }
+  .aliquot-row input { font-size: 13px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-family: var(--sans); color: var(--text); outline: none; width: 100%; }
+  .aliquot-row input:focus { border-color: var(--border-strong); }
+  .remove-aliquot { background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 16px; line-height: 1; padding: 2px 5px; border-radius: 3px; transition: color .15s; }
+  .remove-aliquot:hover { color: var(--danger); }
+  .aliquot-builder-footer { padding: 8px 12px; background: var(--bg); border-top: 1px solid var(--border); font-size: 11px; color: var(--text-faint); font-family: var(--mono); }
+
+  /* Buttons */
+  .btn { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; padding: 9px 18px; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); transition: background .15s, border-color .15s; text-decoration: none; display: inline-block; }
   .btn:hover { background: var(--bg); border-color: var(--border-strong); }
-  .btn-primary {
-    background: var(--text);
-    color: var(--surface);
-    border-color: var(--text);
-  }
+  .btn-primary { background: var(--text); color: var(--surface); border-color: var(--text); }
   .btn-primary:hover { background: #333; border-color: #333; }
-  .btn-danger { color: #c0392b; border-color: #f5c6c6; }
+  .btn-danger { color: var(--danger); border-color: #f5c6c6; }
   .btn-danger:hover { background: #fdf0f0; }
-
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
   .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 
-  /* ── Detail modal ── */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(26,25,22,0.45);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s;
-  }
+  /* Alerts tab */
+  .notif-section { margin-bottom: 24px; }
+  .notif-section h3 { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .notif-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 4px; font-size: 13px; }
+  .notif-item.warn { border-left: 3px solid var(--warn); }
+  .notif-item.danger { border-left: 3px solid var(--danger); }
+  .notif-label { color: var(--text); font-weight: 500; }
+  .notif-detail { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .notif-action { font-family: var(--mono); font-size: 11px; color: var(--text-faint); cursor: pointer; flex-shrink: 0; margin-left: 16px; }
+  .notif-action:hover { color: var(--text); }
+
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(26,25,22,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    width: 100%; max-width: 560px;
-    max-height: 90vh;
-    overflow-y: auto;
-    transform: translateY(8px);
-    transition: transform 0.2s;
-  }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; transform: translateY(8px); transition: transform .2s; }
   .modal-overlay.open .modal { transform: translateY(0); }
-  .modal-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: flex-start;
-  }
+  .modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
   .modal-body { padding: 20px 24px; }
-  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
-
-  .modal-id {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-  .modal-name { font-size: 20px; font-weight: 500; }
-
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-  .detail-item label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 3px; }
-  .detail-item span { font-size: 14px; color: var(--text); }
-  .detail-notes { margin-top: 12px; }
-  .detail-notes label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
-  .detail-notes p { font-size: 14px; color: var(--text-muted); white-space: pre-wrap; }
-
-  .barcode-section {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    text-align: center;
-    margin-top: 16px;
-  }
-  #barcode-container svg { max-width: 100%; height: auto; }
-  .barcode-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
-
-  .close-btn {
-    background: none; border: none; cursor: pointer;
-    font-size: 20px; color: var(--text-muted); line-height: 1;
-    padding: 2px 4px;
-    border-radius: 4px;
-    transition: color 0.15s;
-  }
+  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+  .modal-id { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
+  .modal-name { font-size: 20px; font-weight: 500; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .close-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--text-muted); line-height: 1; padding: 2px 4px; border-radius: 4px; transition: color .15s; }
   .close-btn:hover { color: var(--text); }
 
-  /* ── Setup view ── */
-  .setup-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    max-width: 680px;
-  }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .detail-item label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 3px; }
+  .detail-item span { font-size: 14px; color: var(--text); }
+  .detail-notes { margin-top: 12px; }
+  .detail-notes label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+  .detail-notes p { font-size: 14px; color: var(--text-muted); white-space: pre-wrap; }
+
+  .modal-aliquots { margin-top: 16px; }
+  .modal-aliquots > label { display: block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+  .modal-aliquot-row { display: grid; grid-template-columns: 1fr 70px 90px auto; gap: 8px; align-items: center; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 4px; background: var(--bg); }
+  .modal-aliquot-row.consumed { opacity: .45; }
+  .modal-aliquot-row.thawed { background: #fffdf0; }
+  .modal-aliquot-id { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .modal-aliquot-btns { display: flex; gap: 4px; justify-content: flex-end; }
+
+  .barcode-section { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; margin-top: 16px; }
+  #barcode-container svg, #bm-barcode-container svg { max-width: 100%; height: auto; }
+  .barcode-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+  /* Edit mode */
+  .modal.editing .detail-item span, .modal.editing .detail-notes p { display: none; }
+  .modal.editing .detail-item .edit-input, .modal.editing .detail-notes .edit-input { display: block; }
+  .modal.editing .barcode-section, .modal.editing .modal-aliquots { display: none; }
+  .detail-item .edit-input, .detail-notes .edit-input { display: none; }
+  .edit-input { font-family: var(--sans); font-size: 14px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); outline: none; width: 100%; transition: border-color .15s, background .15s; }
+  .edit-input:focus { border-color: var(--border-strong); background: var(--surface); }
+  textarea.edit-input { resize: vertical; min-height: 72px; }
+  .modal-footer .btn-left { margin-right: auto; }
+
+  /* Setup */
+  .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; max-width: 680px; }
   .setup-card h2 { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
   .step { display: flex; gap: 16px; margin-bottom: 20px; }
   .step-num { font-family: var(--mono); font-size: 12px; font-weight: 500; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -340,85 +219,82 @@
   code { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; color: var(--text); }
   .code-block { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; color: var(--text-muted); margin-top: 8px; white-space: pre; overflow-x: auto; }
 
-  /* ── Edit mode ── */
-  .modal.editing .detail-item span,
-  .modal.editing .detail-notes p { display: none; }
-  .modal.editing .detail-item .edit-input,
-  .modal.editing .detail-notes .edit-input { display: block; }
-  .modal.editing .barcode-section { display: none; }
-  .detail-item .edit-input,
-  .detail-notes .edit-input { display: none; }
-  .edit-input {
-    font-family: var(--sans);
-    font-size: 14px;
-    padding: 6px 10px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    width: 100%;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .edit-input:focus { border-color: var(--border-strong); background: var(--surface); }
-  textarea.edit-input { resize: vertical; min-height: 72px; }
-  .modal-footer .btn-left { margin-right: auto; }
-
-  /* ── Print ── */
+  /* Print */
   @media print {
-    header, .tabs, .search-bar, .modal-footer, .form-actions { display: none !important; }
+    header, .tabs, .toolbar, .modal-footer, .form-actions, #alerts-banner { display: none !important; }
     .modal-overlay { position: static; background: none; padding: 0; }
     .modal { max-height: none; box-shadow: none; border: none; }
   }
 
-  /* ── Mobile ── */
-  @media (max-width: 580px) {
+  /* Mobile */
+  @media (max-width: 620px) {
     .container { padding: 20px 16px; }
     header { padding: 0 16px; }
     .form-grid { grid-template-columns: 1fr; }
     .detail-grid { grid-template-columns: 1fr; }
-    .reg-item { grid-template-columns: 1fr auto; }
+    .reagent-header { grid-template-columns: 1fr 60px auto; }
     .reg-id { display: none; }
     .logo span { display: none; }
+    .aliquot-item { grid-template-columns: 1fr 1fr auto; }
+    .modal-aliquot-row { grid-template-columns: 1fr auto; }
   }
+
+  /* Footer */
+  .site-footer { text-align: center; padding: 24px; margin-top: 40px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .site-footer a, .footer-sep { font-family: var(--mono); font-size: 11px; color: var(--text-faint); text-decoration: none; letter-spacing: .04em; transition: color .15s; }
+  .site-footer a:hover { color: var(--text-muted); }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-dot"></div>
-    Lab Registry
-    <span style="color:var(--text-faint);font-weight:300">/ reagents</span>
-  </div>
+  <div class="logo"><div class="logo-dot"></div>Lab Registry<span style="color:var(--text-faint);font-weight:300">/ reagents</span></div>
   <div class="header-actions">
     <button class="btn" onclick="showTab('add')">+ Add</button>
   </div>
 </header>
 
+<div id="alerts-banner" onclick="showTab('alerts')">
+  <span id="alerts-summary"></span>
+  <span class="alert-dismiss" onclick="event.stopPropagation();this.parentElement.style.display='none'">✕</span>
+</div>
+
 <div class="container">
   <div class="tabs">
     <button class="tab active" onclick="showTab('browse')">Browse</button>
     <button class="tab" onclick="showTab('add')">Add entry</button>
-    <button class="tab" onclick="showTab('setup')">Setup & export</button>
+    <button class="tab" onclick="showTab('alerts')">Alerts <span class="tab-badge" id="alert-count" style="display:none">0</span></button>
   </div>
 
   <!-- BROWSE -->
   <div class="view active" id="view-browse">
-    <div class="search-bar">
+    <div class="toolbar">
       <input type="text" id="search-input" placeholder="Search by name, ID, lot, manufacturer…" oninput="renderList()">
       <select id="filter-type" onchange="renderList()">
         <option value="">All types</option>
         <option value="R">Reagents (R)</option>
         <option value="S">Samples (S)</option>
       </select>
+      <select id="filter-status" onchange="renderList()">
+        <option value="">All statuses</option>
+        <option value="available">Has available</option>
+        <option value="thawed">Has thawed</option>
+        <option value="allconsumed">All consumed</option>
+      </select>
+      <select id="sort-by" onchange="renderList()">
+        <option value="name">Sort: Name</option>
+        <option value="expiry">Sort: Expiry ↑</option>
+        <option value="supply">Sort: Supply ↓ (key only)</option>
+        <option value="added">Sort: Date added</option>
+      </select>
     </div>
-    <div class="registry-list" id="registry-list"></div>
+    <div id="registry-list"></div>
   </div>
 
   <!-- ADD -->
   <div class="view" id="view-add">
     <div class="form-card">
+      <div class="form-section-title">Reagent info</div>
       <div class="form-grid">
         <div class="form-group">
           <label>Type</label>
@@ -428,46 +304,52 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Generated ID</label>
-          <div class="preview-id" id="preview-id">R-2024-0001</div>
+          <label>Generated IDs</label>
+          <div class="preview-id" id="preview-id">—</div>
+        </div>
+        <div class="form-group full"><label>Name *</label><input type="text" id="f-name" placeholder="e.g. PBS 10× concentrate"></div>
+        <div class="form-group"><label>Manufacturer</label><input type="text" id="f-manufacturer" placeholder="e.g. Sigma-Aldrich"></div>
+        <div class="form-group"><label>Lot number</label><input type="text" id="f-lot" placeholder="e.g. BCDF1234"></div>
+        <div class="form-group"><label>Expiry date</label><input type="date" id="f-expiry"></div>
+        <div class="form-group"><label>Storage</label><input type="text" id="f-storage" placeholder="e.g. −20 °C, rack B3"></div>
+        <div class="form-group"><label>Project</label><input type="text" id="f-project" placeholder="e.g. Project AURORA"></div>
+        <div class="form-group full"><label>Notes</label><textarea id="f-notes" placeholder="Handling notes, references…"></textarea></div>
+      </div>
+
+      <div class="form-section-title">Classification &amp; alerts</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <div class="checkbox-row"><input type="checkbox" id="f-key"><label for="f-key">Mark as key reagent / stock solution (shown on supply sort, tracked prominently)</label></div>
         </div>
         <div class="form-group full">
-          <label>Name *</label>
-          <input type="text" id="f-name" placeholder="e.g. PBS 10× concentrate">
-        </div>
-        <div class="form-group">
-          <label>Manufacturer</label>
-          <input type="text" id="f-manufacturer" placeholder="e.g. Sigma-Aldrich">
-        </div>
-        <div class="form-group">
-          <label>Lot number</label>
-          <input type="text" id="f-lot" placeholder="e.g. BCDF1234">
-        </div>
-        <div class="form-group">
-          <label>Expiry date</label>
-          <input type="date" id="f-expiry">
-        </div>
-        <div class="form-group">
-          <label>Storage</label>
-          <input type="text" id="f-storage" placeholder="e.g. −20 °C, rack B3">
-        </div>
-        <div class="form-group">
-          <label>Concentration / volume</label>
-          <input type="text" id="f-conc" placeholder="e.g. 1 mg/ml, 500 µl">
-        </div>
-        <div class="form-group">
-          <label>Aliquot</label>
-          <input type="text" id="f-aliquot" placeholder="e.g. 3 of 10">
-        </div>
-        <div class="form-group">
-          <label>Project</label>
-          <input type="text" id="f-project" placeholder="e.g. Project AURORA">
+          <div class="checkbox-row"><input type="checkbox" id="f-notify-low"><label for="f-notify-low">Alert when aliquots running low</label></div>
         </div>
         <div class="form-group full">
-          <label>Notes</label>
-          <textarea id="f-notes" placeholder="Handling notes, references, preparation details…"></textarea>
+          <div class="checkbox-row"><input type="checkbox" id="f-notify-exp" checked><label for="f-notify-exp">Alert when near expiration date (within 90 days)</label></div>
+        </div>
+        <div class="form-group">
+          <label>Low stock threshold (aliquots remaining)</label>
+          <input type="number" id="f-low-threshold" value="2" min="1">
         </div>
       </div>
+
+      <div class="form-section-title">Aliquots</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Number of aliquots</label>
+          <input type="number" id="f-aliquot-count" value="1" min="1" max="100" oninput="buildAliquotRows()">
+        </div>
+        <div class="form-group">
+          <label>Default volume (fills all below)</label>
+          <input type="text" id="f-default-vol" placeholder="e.g. 500 µl" oninput="fillDefaultVol()">
+        </div>
+      </div>
+      <div class="aliquot-builder" id="aliquot-builder">
+        <div class="aliquot-builder-header"><span>Label / note</span><span>Volume</span><span></span></div>
+        <div id="aliquot-rows"></div>
+        <div class="aliquot-builder-footer">Each aliquot receives a unique barcode ID (e.g. R-2025-0001-A1, A2…)</div>
+      </div>
+
       <div class="form-actions">
         <button class="btn" onclick="clearForm()">Clear</button>
         <button class="btn btn-primary" onclick="addEntry()">Save entry</button>
@@ -475,74 +357,67 @@
     </div>
   </div>
 
-  <!-- SETUP -->
-  <div class="view" id="view-setup">
+  <!-- ALERTS -->
+  <div class="view" id="view-alerts">
+    <div class="notif-section" id="notif-expired-section" style="display:none">
+      <h3>⚠ Expired</h3>
+      <div id="notif-expired"></div>
+    </div>
+    <div class="notif-section" id="notif-soon-section" style="display:none">
+      <h3>⏰ Expiring within 90 days</h3>
+      <div id="notif-soon"></div>
+    </div>
+    <div class="notif-section" id="notif-low-section" style="display:none">
+      <h3>📦 Low stock</h3>
+      <div id="notif-low"></div>
+    </div>
+    <div id="notif-empty">
+      <div class="empty-state"><strong>No alerts</strong>All reagents are within normal parameters.</div>
+    </div>
+  </div>
+
+  <!-- SETUP (moved to footer modal) -->
+  <div class="view" id="view-setup" style="display:none!important">
     <div class="setup-card">
       <h2>Setup &amp; GitHub sync</h2>
-
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
           <h3>Create a GitHub repository</h3>
-          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Give it a name (e.g. <code>lab-registry</code>), set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Then upload this <code>index.html</code> file: click <strong>Add file → Upload files</strong>, drop it in, and commit. Your repo now has one file on the <code>main</code> branch.</p>
+          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Name it (e.g. <code>specim</code>), set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Upload this <code>index.html</code> file to the <code>main</code> branch.</p>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
           <h3>Enable GitHub Pages</h3>
-          <p>In your repo go to <strong>Settings → Pages</strong>. Under <em>Source</em> select <strong>Deploy from a branch</strong>, choose <code>main</code> and <code>/ (root)</code>, and click Save. After about a minute your registry will be live at:</p>
-          <div class="code-block">https://YOUR-USERNAME.github.io/lab-registry/</div>
+          <p>Go to <strong>Settings → Pages</strong>, set source to <strong>Deploy from branch → main / root</strong>. After ~1 min your registry is live.</p>
+          <div class="code-block">https://schmidtdav.github.io/specim/</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
-          <h3>Create a <code>data</code> branch and add <code>db.json</code></h3>
-          <p>In your repo, click the branch dropdown → type <code>data</code> → <strong>Create branch: data</strong>. Switch to that branch, click <strong>Add file → Create new file</strong>, name it <code>db.json</code>, paste in <code>[]</code>, and commit. This branch is your database — <code>index.html</code> on <code>main</code> will never need to change again.</p>
+          <h3>Create a <code>data</code> branch with <code>db.json</code></h3>
+          <p>Branch dropdown → type <code>data</code> → Create. Switch to it, add <code>db.json</code> with content <code>[]</code>.</p>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <h3>Protect the <code>main</code> branch</h3>
-          <p>Go to repo → <strong>Settings → Branches → Add branch protection rule</strong>. Set the pattern to <code>main</code> and enable <strong>Restrict who can push to matching branches</strong>. This prevents any token from writing to <code>main</code> — your app file is read-only even if a token is ever stolen.</p>
+          <h3>Create a Personal Access Token</h3>
+          <p><a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Scope to this repo, <strong>Contents: Read and Write</strong>.</p>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">5</div>
         <div class="step-body">
-          <h3>Create a Personal Access Token</h3>
-          <p>Go to <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Create a token scoped to your registry repo with <strong>Contents: Read and Write</strong>. Colleagues who need write access create their own token the same way — they must be added as a repo collaborator first under <strong>Settings → Collaborators</strong>. Read-only visitors need no token at all.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">6</div>
-        <div class="step-body">
-          <h3>Enter your Personal Access Token</h3>
-          <p>The repo is pre-configured below. Paste your token and click <strong>Save &amp; test connection</strong>. The token is stored in your browser only — never sent anywhere except GitHub's API. Barcodes on printed labels automatically point to <code>https://schmidtdav.github.io/specim</code>.</p>
+          <h3>Paste your token below</h3>
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
-            <div class="form-group">
-              <label>GitHub owner</label>
-              <input type="text" value="schmidtdav" disabled style="opacity:0.5;cursor:default;">
-            </div>
-            <div class="form-group">
-              <label>Repository</label>
-              <input type="text" value="specim" disabled style="opacity:0.5;cursor:default;">
-            </div>
-            <div class="form-group">
-              <label>Branch</label>
-              <input type="text" value="data" disabled style="opacity:0.5;cursor:default;">
-            </div>
-            <div class="form-group">
-              <label>Personal Access Token</label>
-              <input type="text" id="gh-token" placeholder="github_pat_…" autocomplete="off" oninput="saveGhConfig()" style="font-family:var(--mono);font-size:12px;">
-            </div>
+            <div class="form-group"><label>GitHub owner</label><input type="text" value="schmidtdav" disabled style="opacity:.5;cursor:default"></div>
+            <div class="form-group"><label>Repository</label><input type="text" value="specim" disabled style="opacity:.5;cursor:default"></div>
+            <div class="form-group"><label>Branch</label><input type="text" value="data" disabled style="opacity:.5;cursor:default"></div>
+            <div class="form-group"><label>Personal Access Token</label><input type="text" id="gh-token" placeholder="github_pat_…" autocomplete="off" oninput="saveGhConfig()" style="font-family:var(--mono);font-size:12px"></div>
             <div style="display:flex;gap:8px;align-items:center;">
               <button class="btn btn-primary" onclick="testConnection()">Save &amp; test connection</button>
               <span id="gh-status" style="font-size:12px;color:var(--text-muted)"></span>
@@ -550,24 +425,48 @@
           </div>
         </div>
       </div>
-
       <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn" onclick="importJSON()">Import backup JSON</button>
         <button class="btn" onclick="exportJSON()">Export backup JSON</button>
       </div>
-      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Changes are saved directly to <code>db.json</code> in your GitHub repo. Use backup JSON if you want a local copy.</p>
+      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Changes are saved to <code>db.json</code> in your GitHub repo. Token stored in browser only.</p>
     </div>
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
+<!-- BARCODE MODAL (per aliquot) -->
+<div class="modal-overlay" id="barcode-modal-overlay" onclick="closeBarcodeModal(event)">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div><div class="modal-id" id="bm-id"></div><div class="modal-name" id="bm-name" style="font-size:16px"></div></div>
+      <button class="close-btn" onclick="closeBarcodeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="barcode-section">
+        <div id="bm-barcode-container"><svg id="bm-barcode"></svg></div>
+        <div class="barcode-label" id="bm-barcode-label"></div>
+      </div>
+      <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+        <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">Volume</span><span id="bm-vol">—</span></div>
+        <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">Status</span><span id="bm-status">—</span></div>
+        <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">Storage</span><span id="bm-storage">—</span></div>
+        <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">Expiry</span><span id="bm-expiry">—</span></div>
+        <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">First thawed</span><span id="bm-thawed">—</span></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-left" id="bm-btn-consume" onclick="aliquotAction('consumed')">Mark consumed</button>
+      <button class="btn" id="bm-btn-thaw" onclick="aliquotAction('thawed')">Mark thawed</button>
+      <button class="btn btn-primary" onclick="window.print()">Print label</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL (reagent-level) -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-header">
-      <div>
-        <div class="modal-id" id="m-id"></div>
-        <div class="modal-name" id="m-name"></div>
-      </div>
+      <div><div class="modal-id" id="m-id"></div><div class="modal-name" id="m-name"></div></div>
       <button class="close-btn" onclick="closeModal()">&times;</button>
     </div>
     <div class="modal-body">
@@ -576,204 +475,235 @@
         <div class="detail-item"><label>Lot number</label><span id="m-lot"></span><input class="edit-input" id="e-lot" type="text"></div>
         <div class="detail-item"><label>Expiry</label><span id="m-expiry"></span><input class="edit-input" id="e-expiry" type="date"></div>
         <div class="detail-item"><label>Storage</label><span id="m-storage"></span><input class="edit-input" id="e-storage" type="text"></div>
-        <div class="detail-item"><label>Concentration / vol.</label><span id="m-conc"></span><input class="edit-input" id="e-conc" type="text"></div>
-        <div class="detail-item"><label>Aliquot</label><span id="m-aliquot"></span><input class="edit-input" id="e-aliquot" type="text"></div>
         <div class="detail-item"><label>Project</label><span id="m-project"></span><input class="edit-input" id="e-project" type="text"></div>
-        <div class="detail-item"><label>Name</label><span id="m-name-field"></span><input class="edit-input" id="e-name" type="text"></div>
         <div class="detail-item"><label>Added</label><span id="m-date"></span></div>
+        <div class="detail-item" style="grid-column:1/-1">
+          <div class="checkbox-row"><input type="checkbox" id="e-key"><label for="e-key" style="text-transform:none;letter-spacing:0;font-size:13px;font-family:var(--sans);font-weight:400;color:var(--text)">Key reagent / stock solution</label></div>
+        </div>
+        <div class="detail-item" style="grid-column:1/-1">
+          <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+            <div class="checkbox-row"><input type="checkbox" id="e-notify-low"><label for="e-notify-low" style="text-transform:none;letter-spacing:0;font-size:12px;font-family:var(--sans);font-weight:400;color:var(--text-muted)">Alert on low stock</label></div>
+            <div class="checkbox-row"><input type="checkbox" id="e-notify-exp"><label for="e-notify-exp" style="text-transform:none;letter-spacing:0;font-size:12px;font-family:var(--sans);font-weight:400;color:var(--text-muted)">Alert near expiry</label></div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <label style="font-size:12px;font-family:var(--sans);font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0">Low at</label>
+              <input type="number" id="e-low-threshold" style="width:55px;padding:4px 6px;font-size:12px" min="1">
+              <label style="font-size:12px;font-family:var(--sans);font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0">aliquots</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="detail-notes">
         <label>Notes</label>
         <p id="m-notes"></p>
         <textarea class="edit-input" id="e-notes"></textarea>
       </div>
-      <div class="barcode-section">
-        <div id="barcode-container"><svg id="barcode"></svg></div>
-        <div class="barcode-label" id="barcode-label"></div>
+      <div class="modal-aliquots">
+        <label>Aliquots</label>
+        <div id="m-aliquots-list"></div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <input type="text" id="m-new-aliquot-vol" placeholder="Volume (e.g. 500 µl)" style="flex:1;min-width:120px;font-size:13px;padding:6px 10px">
+          <input type="text" id="m-new-aliquot-note" placeholder="Label / note" style="flex:1;min-width:120px;font-size:13px;padding:6px 10px">
+          <button class="btn btn-sm" onclick="addAliquotToExisting()">+ Add aliquot</button>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-danger btn-left" onclick="deleteEntry()" id="btn-delete">Delete</button>
-      <button class="btn" onclick="copyEntry()" id="btn-copy">Copy to new</button>
       <button class="btn" onclick="startEdit()" id="btn-edit">Edit</button>
       <button class="btn" onclick="cancelEdit()" id="btn-cancel" style="display:none">Cancel</button>
       <button class="btn btn-primary" onclick="saveEdit()" id="btn-save-edit" style="display:none">Save changes</button>
-      <button class="btn btn-primary" onclick="window.print()" id="btn-print">Print label QR</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <a href="https://github.com/schmidtdav/specim" target="_blank" rel="noopener">source</a>
+  <span class="footer-sep">·</span>
+  <a href="#" onclick="event.preventDefault();openConfigModal()">config</a>
+</footer>
+
+<!-- CONFIG MODAL -->
+<div class="modal-overlay" id="config-modal-overlay" onclick="closeConfigModal(event)">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div><div class="modal-name" style="font-size:16px;font-family:var(--mono);font-weight:500;letter-spacing:.04em">Config &amp; export</div></div>
+      <button class="close-btn" onclick="closeConfigModal()">&times;</button>
+    </div>
+    <div class="modal-body" style="padding:20px 24px 24px">
+      <div class="setup-card" style="border:none;padding:0;max-width:100%">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Create a GitHub repository</h3>
+            <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Name it (e.g. <code>specim</code>), set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Upload this <code>index.html</code> file to the <code>main</code> branch.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Enable GitHub Pages</h3>
+            <p>Go to <strong>Settings → Pages</strong>, set source to <strong>Deploy from branch → main / root</strong>. After ~1 min your registry is live.</p>
+            <div class="code-block">https://schmidtdav.github.io/specim/</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Create a <code>data</code> branch with <code>db.json</code></h3>
+            <p>Branch dropdown → type <code>data</code> → Create. Switch to it, add <code>db.json</code> with content <code>[]</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Create a Personal Access Token</h3>
+            <p><a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Scope to this repo, <strong>Contents: Read and Write</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3>Paste your token below</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+              <div class="form-group"><label>GitHub owner</label><input type="text" value="schmidtdav" disabled style="opacity:.5;cursor:default"></div>
+              <div class="form-group"><label>Repository</label><input type="text" value="specim" disabled style="opacity:.5;cursor:default"></div>
+              <div class="form-group"><label>Branch</label><input type="text" value="data" disabled style="opacity:.5;cursor:default"></div>
+              <div class="form-group"><label>Personal Access Token</label><input type="text" id="gh-token" placeholder="github_pat_…" autocomplete="off" oninput="saveGhConfig()" style="font-family:var(--mono);font-size:12px"></div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <button class="btn btn-primary" onclick="testConnection()">Save &amp; test connection</button>
+                <span id="gh-status" style="font-size:12px;color:var(--text-muted)"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" onclick="importJSON()">Import backup JSON</button>
+          <button class="btn" onclick="exportJSON()">Export backup JSON</button>
+        </div>
+        <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Changes are saved to <code>db.json</code> in your GitHub repo. Token stored in browser only.</p>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// ── GitHub config ────────────────────────────────────────────
-// Owner, repo and branch are fixed — only the token is user-supplied.
-const GH_OWNER  = 'schmidtdav';
-const GH_REPO   = 'specim';
-const GH_BRANCH = 'data';
-
+// ── GitHub config ─────────────────────────────────────────────
+const GH_OWNER = 'schmidtdav', GH_REPO = 'specim', GH_BRANCH = 'data';
 let dbSha = null;
 
-function ghConfig() {
-  return {
-    owner:  GH_OWNER,
-    repo:   GH_REPO,
-    branch: GH_BRANCH,
-    token:  localStorage.getItem('gh-token') || '',
-  };
-}
-
-function saveGhConfig() {
-  // Only the token is user-configurable
-  localStorage.setItem('gh-token', document.getElementById('gh-token').value.trim());
-}
-
-function ghConfigured() {
-  return !!ghConfig().token;
-}
-
-function ghHeaders() {
-  return {
-    'Authorization': 'Bearer ' + ghConfig().token,
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',
-  };
-}
-
-function ghFileUrl() {
-  const c = ghConfig();
-  return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json?ref=${c.branch}`;
-}
-
-// ── GitHub read ──────────────────────────────────────────────
+function ghConfig() { return { owner: GH_OWNER, repo: GH_REPO, branch: GH_BRANCH, token: localStorage.getItem('gh-token') || '' }; }
+function saveGhConfig() { localStorage.setItem('gh-token', document.getElementById('gh-token').value.trim()); }
+function ghConfigured() { return !!ghConfig().token; }
+function ghHeaders() { const c = ghConfig(); return { 'Authorization': 'Bearer ' + c.token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' }; }
+function ghFileUrl() { const c = ghConfig(); return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json?ref=${c.branch}`; }
 async function ghRead() {
   const res = await fetch(ghFileUrl(), { headers: ghHeaders() });
   if (!res.ok) throw new Error(`GitHub read failed: ${res.status} ${res.statusText}`);
-  const json = await res.json();
-  dbSha = json.sha;
-  const text = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
-  return JSON.parse(text);
+  const json = await res.json(); dbSha = json.sha;
+  return JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
 }
-
-// ── GitHub write ─────────────────────────────────────────────
 async function ghWrite(data) {
   const c = ghConfig();
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-  const body = {
-    message: `Update db.json [${new Date().toISOString().slice(0,10)}]`,
-    content,
-    branch: c.branch,
-    sha: dbSha,
-  };
-  const res = await fetch(
-    `https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json`,
-    { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) }
-  );
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || `GitHub write failed: ${res.status}`);
-  }
-  const json = await res.json();
-  dbSha = json.content.sha; // update SHA for next write
+  const res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/db.json`,
+    { method: 'PUT', headers: ghHeaders(), body: JSON.stringify({ message: `Update db.json [${new Date().toISOString().slice(0,10)}]`, content, branch: c.branch, sha: dbSha }) });
+  if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.message || `GitHub write failed: ${res.status}`); }
+  dbSha = (await res.json()).content.sha;
 }
 
-// ── Data store ───────────────────────────────────────────────
-let db = [];
-let currentId = null;
+// ── State ─────────────────────────────────────────────────────
+let db = [], currentId = null, currentAliquotId = null;
+const openGroups = new Set();
 
+// ── Boot ─────────────────────────────────────────────────────
 async function init() {
-  // Only the token is user-supplied; owner/repo/branch are hardcoded
   document.getElementById('gh-token').value = localStorage.getItem('gh-token') || '';
-
+  buildAliquotRows();
   updatePreviewId();
-
   if (ghConfigured()) {
-    setStatus('Loading from GitHub…', 'var(--text-muted)');
-    try {
-      db = await ghRead();
-      setStatus('Synced with GitHub ✓', 'var(--accent-c)');
-      localStorage.setItem('lab-registry-cache', JSON.stringify(db));
-    } catch(e) {
-      setStatus('GitHub load failed — using local cache', '#d67e00');
-      const cached = localStorage.getItem('lab-registry-cache');
-      db = cached ? JSON.parse(cached) : [];
-    }
+    setStatus('Loading…', 'var(--text-muted)');
+    try { db = (await ghRead()).map(migrate); setStatus('Synced ✓', 'var(--accent-c)'); localStorage.setItem('lab-registry-cache', JSON.stringify(db)); }
+    catch(e) { setStatus('GitHub failed — local cache', '#d67e00'); const c = localStorage.getItem('lab-registry-cache'); db = c ? JSON.parse(c).map(migrate) : []; }
   } else {
-    // Fall back to local cache if GitHub not configured
-    const cached = localStorage.getItem('lab-registry-cache');
-    db = cached ? JSON.parse(cached) : [];
-    if (!cached) setStatus('Configure GitHub in Setup & export to sync data.', 'var(--text-muted)');
+    const c = localStorage.getItem('lab-registry-cache'); db = c ? JSON.parse(c).map(migrate) : [];
+    if (!c) setStatus('Configure via the config link at the bottom of the page.', 'var(--text-muted)');
   }
-
-  renderList();
-  handleHash();
+  renderList(); renderAlerts(); handleHash();
 }
 
-// Show a sync status badge in the header
+function migrate(e) {
+  if (e.aliquots) return { isKey:false, notifyLow:false, notifyExp:true, lowThreshold:2, ...e };
+  return { ...e, isKey: e.isKey||false, notifyLow: e.notifyLow||false, notifyExp: e.notifyExp!==false, lowThreshold: e.lowThreshold||2,
+    aliquots: [{ id: e.id+'-A1', vol: e.conc||e.aliquot||'', note:'', status:'available', thawedDate:null }] };
+}
+
 function setStatus(msg, color) {
-  let badge = document.getElementById('sync-status');
-  if (!badge) {
-    badge = document.createElement('span');
-    badge.id = 'sync-status';
-    badge.style.cssText = 'font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:3px;border:1px solid var(--border);';
-    document.querySelector('.header-actions').prepend(badge);
-  }
-  badge.textContent = msg;
-  badge.style.color = color;
+  let b = document.getElementById('sync-status');
+  if (!b) { b = document.createElement('span'); b.id = 'sync-status'; b.style.cssText='font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:3px;border:1px solid var(--border);'; document.querySelector('.header-actions').prepend(b); }
+  b.textContent = msg; b.style.color = color;
 }
 
-// ── Persist: write to GitHub + update local cache ────────────
 async function save() {
   localStorage.setItem('lab-registry-cache', JSON.stringify(db));
   if (!ghConfigured()) return;
   setStatus('Saving…', 'var(--text-muted)');
-  try {
-    await ghWrite(db);
-    setStatus('Saved ✓', 'var(--accent-c)');
-  } catch(e) {
-    setStatus('Save failed: ' + e.message, '#c0392b');
-    throw e;
-  }
+  try { await ghWrite(db); setStatus('Saved ✓', 'var(--accent-c)'); }
+  catch(e) { setStatus('Save failed: '+e.message, '#c0392b'); throw e; }
 }
 
-function getBaseUrl() {
-  const c = ghConfig();
-  if (c.owner && c.repo) {
-    return `https://${c.owner}.github.io/${c.repo}`;
-  }
-  return (window.location.origin + window.location.pathname).replace(/\/$/, '');
-}
+function getBaseUrl() { const c=ghConfig(); return c.owner&&c.repo ? `https://${c.owner}.github.io/${c.repo}` : (window.location.origin+window.location.pathname).replace(/\/$/,''); }
 
-// ── Test connection ──────────────────────────────────────────
 async function testConnection() {
-  saveGhConfig();
-  const status = document.getElementById('gh-status');
-  if (!ghConfigured()) { status.textContent = '⚠ Fill in all fields first.'; status.style.color = '#d67e00'; return; }
-  status.textContent = 'Testing…'; status.style.color = 'var(--text-muted)';
-  try {
-    db = await ghRead();
-    localStorage.setItem('lab-registry-cache', JSON.stringify(db));
-    status.textContent = `✓ Connected — ${db.length} entries loaded.`;
-    status.style.color = 'var(--accent-c)';
-    setStatus('Synced with GitHub ✓', 'var(--accent-c)');
-    renderList();
-  } catch(e) {
-    status.textContent = '✗ ' + e.message;
-    status.style.color = '#c0392b';
-  }
+  saveGhConfig(); const st = document.getElementById('gh-status');
+  if (!ghConfigured()) { st.textContent='⚠ Fill in token first.'; st.style.color='#d67e00'; return; }
+  st.textContent='Testing…'; st.style.color='var(--text-muted)';
+  try { db=(await ghRead()).map(migrate); localStorage.setItem('lab-registry-cache',JSON.stringify(db)); st.textContent=`✓ Connected — ${db.length} entries.`; st.style.color='var(--accent-c)'; setStatus('Synced ✓','var(--accent-c)'); renderList(); renderAlerts(); }
+  catch(e) { st.textContent='✗ '+e.message; st.style.color='#c0392b'; }
 }
 
-// ── ID generation ────────────────────────────────────────────
+// ── ID generation ─────────────────────────────────────────────
 function nextId(type) {
-  const year = new Date().getFullYear();
-  const same = db.filter(e => e.id.startsWith(type + '-' + year + '-'));
-  const nums = same.map(e => parseInt(e.id.split('-')[2]) || 0);
-  const next = nums.length ? Math.max(...nums) + 1 : 1;
-  return `${type}-${year}-${String(next).padStart(4, '0')}`;
+  const yr = new Date().getFullYear();
+  const nums = db.filter(e=>e.id.startsWith(type+'-'+yr+'-')).map(e=>parseInt(e.id.split('-')[2])||0);
+  return `${type}-${yr}-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`;
+}
+function nextAliquotId(rid, aliquots) {
+  const nums = (aliquots||[]).map(a=>parseInt(a.id.split('-A').pop())||0);
+  return `${rid}-A${nums.length?Math.max(...nums)+1:1}`;
 }
 
 function updatePreviewId() {
   const type = document.getElementById('f-type').value;
-  document.getElementById('preview-id').textContent = nextId(type);
+  const count = parseInt(document.getElementById('f-aliquot-count').value)||1;
+  const base = nextId(type);
+  document.getElementById('preview-id').textContent = count===1 ? base+'-A1' : base+'-A1 … '+base+`-A${count}`;
+}
+
+// ── Aliquot builder ───────────────────────────────────────────
+function buildAliquotRows() {
+  const count = Math.min(parseInt(document.getElementById('f-aliquot-count').value)||1, 100);
+  const defVol = document.getElementById('f-default-vol').value;
+  const container = document.getElementById('aliquot-rows');
+  const existing = [...container.querySelectorAll('.aliquot-row')].map(r=>({ note:r.querySelector('.ar-note').value, vol:r.querySelector('.ar-vol').value }));
+  container.innerHTML = '';
+  for (let i=0;i<count;i++) {
+    const r=document.createElement('div'); r.className='aliquot-row';
+    r.innerHTML=`<input class="ar-note" type="text" placeholder="Aliquot ${i+1} label" value="${esc(existing[i]?.note||'')}"><input class="ar-vol" type="text" placeholder="e.g. 500 µl" value="${esc(existing[i]?.vol||defVol)}"><button type="button" class="remove-aliquot" onclick="removeAliquotRow(this)">×</button>`;
+    container.appendChild(r);
+  }
+  updatePreviewId();
+}
+
+function removeAliquotRow(btn) {
+  btn.closest('.aliquot-row').remove();
+  const n = document.querySelectorAll('.aliquot-row').length;
+  document.getElementById('f-aliquot-count').value = n;
+  updatePreviewId();
+}
+
+function fillDefaultVol() {
+  const v = document.getElementById('f-default-vol').value;
+  document.querySelectorAll('.ar-vol').forEach(i=>{ i.value=v; });
 }
 
 // ── CRUD ─────────────────────────────────────────────────────
@@ -782,259 +712,326 @@ async function addEntry() {
   if (!name) { alert('Name is required.'); return; }
   const type = document.getElementById('f-type').value;
   const id = nextId(type);
-  const entry = {
-    id, type, name,
+  const rows = document.querySelectorAll('.aliquot-row');
+  const aliquots = [...rows].map((row,i)=>({ id:`${id}-A${i+1}`, vol:row.querySelector('.ar-vol').value.trim(), note:row.querySelector('.ar-note').value.trim(), status:'available', thawedDate:null }));
+  if (!aliquots.length) aliquots.push({ id:id+'-A1', vol:'', note:'', status:'available', thawedDate:null });
+  db.push({ id, type, name,
     manufacturer: document.getElementById('f-manufacturer').value.trim(),
-    lot:          document.getElementById('f-lot').value.trim(),
-    expiry:       document.getElementById('f-expiry').value,
-    storage:      document.getElementById('f-storage').value.trim(),
-    conc:         document.getElementById('f-conc').value.trim(),
-    aliquot:      document.getElementById('f-aliquot').value.trim(),
-    project:      document.getElementById('f-project').value.trim(),
-    notes:        document.getElementById('f-notes').value.trim(),
-    added:        new Date().toISOString().slice(0, 10),
-  };
-  db.unshift(entry);
-  clearForm();
-  showTab('browse');
-  renderList();
-  try {
-    await save();
-    setTimeout(() => openModal(id), 100);
-  } catch(e) {
-    // save() already updated status; entry is still in local db
-  }
+    lot: document.getElementById('f-lot').value.trim(),
+    expiry: document.getElementById('f-expiry').value,
+    storage: document.getElementById('f-storage').value.trim(),
+    project: document.getElementById('f-project').value.trim(),
+    notes: document.getElementById('f-notes').value.trim(),
+    added: new Date().toISOString().slice(0,10),
+    isKey: document.getElementById('f-key').checked,
+    notifyLow: document.getElementById('f-notify-low').checked,
+    notifyExp: document.getElementById('f-notify-exp').checked,
+    lowThreshold: parseInt(document.getElementById('f-low-threshold').value)||2,
+    aliquots,
+  });
+  clearForm(); renderList(); renderAlerts(); await save(); showTab('browse');
 }
 
 async function deleteEntry() {
   if (!currentId) return;
-  if (!confirm('Delete ' + currentId + '? This cannot be undone.')) return;
-  db = db.filter(e => e.id !== currentId);
-  closeModal();
-  renderList();
+  if (!confirm('Delete '+currentId+' and all aliquots? This cannot be undone.')) return;
+  db = db.filter(e=>e.id!==currentId); closeModal(); renderList(); renderAlerts(); await save();
+}
+
+async function addAliquotToExisting() {
+  if (!currentId) return;
+  const idx = db.findIndex(e=>e.id===currentId); if (idx===-1) return;
+  const vol = document.getElementById('m-new-aliquot-vol').value.trim();
+  const note = document.getElementById('m-new-aliquot-note').value.trim();
+  db[idx].aliquots.push({ id:nextAliquotId(currentId,db[idx].aliquots), vol, note, status:'available', thawedDate:null });
+  document.getElementById('m-new-aliquot-vol').value=''; document.getElementById('m-new-aliquot-note').value='';
+  renderModalAliquots(db[idx]); renderList(); renderAlerts(); await save();
+}
+
+async function setAliquotStatus(reagentId, aliquotId, status) {
+  const entry = db.find(e=>e.id===reagentId); if (!entry) return;
+  const al = entry.aliquots.find(a=>a.id===aliquotId); if (!al) return;
+  if (al.status===status) { al.status='available'; al.thawedDate=null; }
+  else { al.status=status; if (status==='thawed'&&!al.thawedDate) al.thawedDate=new Date().toISOString().slice(0,10); }
+  renderList(); renderAlerts();
+  if (currentId===reagentId) renderModalAliquots(entry);
+  if (currentAliquotId===aliquotId) { const fresh=db.find(e=>e.id===reagentId)?.aliquots.find(a=>a.id===aliquotId); if(fresh) renderBarcodeStatus(fresh); }
   await save();
 }
 
 function clearForm() {
-  ['f-name','f-manufacturer','f-lot','f-storage','f-conc','f-aliquot','f-project','f-notes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-expiry').value = '';
-  updatePreviewId();
+  ['f-name','f-manufacturer','f-lot','f-storage','f-project','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-expiry').value=''; document.getElementById('f-aliquot-count').value=1; document.getElementById('f-default-vol').value='';
+  document.getElementById('f-key').checked=false; document.getElementById('f-notify-low').checked=false; document.getElementById('f-notify-exp').checked=true; document.getElementById('f-low-threshold').value=2;
+  buildAliquotRows();
 }
 
-// ── Render list ──────────────────────────────────────────────
+// ── Render browse ─────────────────────────────────────────────
 function renderList() {
   const q = document.getElementById('search-input').value.toLowerCase();
-  const typeFilter = document.getElementById('filter-type').value;
-  const list = document.getElementById('registry-list');
-  const filtered = db.filter(e => {
-    if (typeFilter && e.type !== typeFilter) return false;
+  const tf = document.getElementById('filter-type').value;
+  const sf = document.getElementById('filter-status').value;
+  const so = document.getElementById('sort-by').value;
+
+  let filtered = db.filter(e=>{
+    if (tf && e.type!==tf) return false;
+    if (sf) {
+      const av=(e.aliquots||[]).filter(a=>a.status==='available').length;
+      const th=(e.aliquots||[]).filter(a=>a.status==='thawed').length;
+      if (sf==='available'&&av===0) return false;
+      if (sf==='thawed'&&th===0) return false;
+      if (sf==='allconsumed'&&(av>0||th>0)) return false;
+    }
     if (!q) return true;
-    return [e.id, e.name, e.manufacturer, e.lot, e.project, e.storage].join(' ').toLowerCase().includes(q);
+    return [e.id,e.name,e.manufacturer,e.lot,e.project,e.storage].join(' ').toLowerCase().includes(q);
   });
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state"><strong>${db.length ? 'No results' : 'No entries yet'}</strong>${db.length ? 'Try a different search term.' : 'Add your first reagent using the Add entry tab.'}</div>`;
-    return;
-  }
-  list.innerHTML = filtered.map(e => {
-    const exp = expiryClass(e.expiry);
-    const expLabel = e.expiry ? `Exp ${e.expiry}` : '—';
-    return `<div class="reg-item" onclick="openModal('${e.id}')">
-      <div class="reg-id">
-        <div class="type-badge badge-${e.type}">${e.type}</div><br>
-        ${e.id}
-      </div>
-      <div class="reg-main">
-        <div class="reg-name">${e.name}</div>
-        <div class="reg-meta">${[e.manufacturer, e.lot, e.storage].filter(Boolean).join(' · ')}</div>
-      </div>
-      <div class="reg-right">
-        <div class="reg-expiry ${exp}">${expLabel}</div>
+
+  filtered.sort((a,b)=>{
+    if (so==='expiry') { if (!a.expiry&&!b.expiry) return 0; if (!a.expiry) return 1; if (!b.expiry) return -1; return a.expiry.localeCompare(b.expiry); }
+    if (so==='supply') {
+      if (a.isKey!==b.isKey) return a.isKey?-1:1;
+      const av=(a.aliquots||[]).filter(x=>x.status!=='consumed').length;
+      const bv=(b.aliquots||[]).filter(x=>x.status!=='consumed').length;
+      return av-bv;
+    }
+    if (so==='added') return (b.added||'').localeCompare(a.added||'');
+    return a.name.localeCompare(b.name);
+  });
+
+  const list = document.getElementById('registry-list');
+  if (!filtered.length) { list.innerHTML=`<div class="empty-state"><strong>${db.length?'No results':'No entries yet'}</strong>${db.length?'Try a different search or filter.':'Add your first reagent using the Add entry tab.'}</div>`; return; }
+  list.innerHTML = filtered.map(e=>renderGroup(e)).join('');
+  filtered.forEach(e=>{ if(openGroups.has(e.id)) document.getElementById('grp-'+e.id)?.classList.add('open'); });
+}
+
+function toggleGroup(id) {
+  const g=document.getElementById('grp-'+id); if(!g) return;
+  openGroups.has(id)?(openGroups.delete(id),g.classList.remove('open')):(openGroups.add(id),g.classList.add('open'));
+}
+
+function renderGroup(e) {
+  const als = e.aliquots||[];
+  const total=als.length, consumed=als.filter(a=>a.status==='consumed').length, thawed=als.filter(a=>a.status==='thawed').length;
+  const remaining=total-consumed, pct=total>0?(remaining/total)*100:0;
+  const supplyClass=pct<=25?'critical':pct<=50?'low':'';
+  const exp=expiryClass(e.expiry), expLabel=e.expiry?`Exp ${e.expiry}`:'—';
+  const isLow=e.notifyLow&&remaining<=(e.lowThreshold||2);
+  const alertCls=exp==='expired'?'has-expired':(exp==='soon'||isLow)?'has-alerts':'';
+
+  const aliquotHtml = als.map(a=>{
+    const sc=a.status==='consumed'?'consumed':a.status==='thawed'?'thawed':'';
+    const pill=a.status==='consumed'?`<span class="status-pill pill-consumed">consumed</span>`:a.status==='thawed'?`<span class="status-pill pill-thawed">thawed</span>`:`<span class="status-pill pill-available">available</span>`;
+    return `<div class="aliquot-item ${sc}" onclick="openBarcodeModal('${e.id}','${a.id}')">
+      <div class="aliquot-id">${esc(a.id)}${a.note?`<br><span style="color:var(--text-faint);font-size:10px">${esc(a.note)}</span>`:''}${a.thawedDate?`<br><span style="color:#856404;font-size:10px">thawed ${esc(a.thawedDate)}</span>`:''}</div>
+      <div class="aliquot-vol">${esc(a.vol||'—')}</div>
+      <div>${pill}</div>
+      <div class="aliquot-actions">
+        <button class="icon-btn${a.status==='thawed'?' active':''}" onclick="event.stopPropagation();setAliquotStatus('${e.id}','${a.id}','thawed')">❄ thaw</button>
+        <button class="icon-btn${a.status==='consumed'?' active':''}" onclick="event.stopPropagation();setAliquotStatus('${e.id}','${a.id}','consumed')">✓ use</button>
       </div>
     </div>`;
   }).join('');
+
+  return `<div class="reagent-group" id="grp-${e.id}">
+    <div class="reagent-header ${alertCls}" onclick="toggleGroup('${e.id}')">
+      <div class="reg-id"><div class="type-badge badge-${e.type}">${e.type}</div><br>${esc(e.id)}</div>
+      <div class="reg-main">
+        <div class="reg-name"><span class="expand-icon">▶</span>${esc(e.name)}${e.isKey?'<span class="key-reagent-tag">key</span>':''}${thawed>0?`<span style="font-family:var(--mono);font-size:10px;color:#856404">❄ ${thawed}</span>`:''}${exp==='expired'?`<span style="font-family:var(--mono);font-size:10px;color:var(--danger)">EXPIRED</span>`:''}${isLow?`<span style="font-family:var(--mono);font-size:10px;color:var(--warn)">LOW</span>`:''}</div>
+        <div class="reg-meta">${[e.manufacturer,e.lot,e.storage].filter(Boolean).map(esc).join(' · ')}</div>
+      </div>
+      <div class="reg-supply">
+        <div class="supply-count">${remaining}/${total}</div>
+        <div class="supply-bar-wrap"><div class="supply-bar ${supplyClass}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="reg-right">
+        <div class="reg-expiry ${exp}">${expLabel}</div>
+        <button class="icon-btn" style="margin-top:6px;font-size:10px" onclick="event.stopPropagation();openModal('${e.id}')">Details</button>
+      </div>
+    </div>
+    <div class="aliquot-list">${aliquotHtml||'<div style="padding:10px;color:var(--text-faint);font-size:12px;font-family:var(--mono)">No aliquots.</div>'}</div>
+  </div>`;
 }
 
-function expiryClass(dateStr) {
-  if (!dateStr) return '';
-  const exp = new Date(dateStr);
-  const now = new Date();
-  const diff = (exp - now) / (1000 * 60 * 60 * 24);
-  if (diff < 0) return 'expired';
-  if (diff < 90) return 'soon';
-  return '';
-}
+function expiryClass(d) { if(!d) return ''; const diff=(new Date(d)-new Date())/(864e5); return diff<0?'expired':diff<90?'soon':''; }
 
-// ── Modal ────────────────────────────────────────────────────
-function openModal(id) {
-  const e = db.find(x => x.id === id);
-  if (!e) return;
-  currentId = id;
-  document.getElementById('m-id').textContent = e.id;
-  document.getElementById('m-name').textContent = e.name;
-  document.getElementById('m-name-field').textContent = e.name;
-  document.getElementById('m-manufacturer').textContent = e.manufacturer || '—';
-  document.getElementById('m-lot').textContent = e.lot || '—';
-  document.getElementById('m-expiry').textContent = e.expiry || '—';
-  document.getElementById('m-storage').textContent = e.storage || '—';
-  document.getElementById('m-conc').textContent = e.conc || '—';
-  document.getElementById('m-aliquot').textContent = e.aliquot || '—';
-  document.getElementById('m-project').textContent = e.project || '—';
-  document.getElementById('m-date').textContent = e.added || '—';
-  document.getElementById('m-notes').textContent = e.notes || '—';
-  const url = getBaseUrl() + '/#' + e.id;
-  document.getElementById('barcode-label').textContent = url;
-  JsBarcode('#barcode', e.id, {
-    format: 'CODE128',
-    width: 2,
-    height: 60,
-    displayValue: true,
-    font: 'IBM Plex Mono',
-    fontSize: 12,
-    margin: 8,
-    background: '#ffffff',
-    lineColor: '#1a1916',
+// ── Alerts ────────────────────────────────────────────────────
+function renderAlerts() {
+  const expired=[], soon=[], low=[];
+  db.forEach(e=>{
+    const exp=expiryClass(e.expiry);
+    if (e.notifyExp) { if(exp==='expired') expired.push(e); else if(exp==='soon') soon.push(e); }
+    if (e.notifyLow) { const av=(e.aliquots||[]).filter(a=>a.status!=='consumed').length; if(av<=(e.lowThreshold||2)) low.push({entry:e,av}); }
   });
-  cancelEdit(); // ensure we're in view mode
+  const total=expired.length+soon.length+low.length;
+  const badge=document.getElementById('alert-count'); badge.textContent=total; badge.style.display=total>0?'':'none';
+  const banner=document.getElementById('alerts-banner');
+  if (total>0) {
+    const parts=[]; if(expired.length) parts.push(expired.length+' expired'); if(soon.length) parts.push(soon.length+' expiring soon'); if(low.length) parts.push(low.length+' low stock');
+    document.getElementById('alerts-summary').textContent='⚠ '+parts.join(' · '); banner.style.display='';
+  } else banner.style.display='none';
+
+  function renderNotifs(items, el, cls, detail) {
+    el.innerHTML=items.map(item=>{ const e=item.entry||item; return `<div class="notif-item ${cls}"><div><div class="notif-label">${esc(e.name)}</div><div class="notif-detail">${esc(e.id)} · ${detail(item)}</div></div><div class="notif-action" onclick="openModal('${e.id}')">View →</div></div>`; }).join('');
+  }
+  renderNotifs(expired, document.getElementById('notif-expired'), 'danger', e=>`Expired ${e.expiry}`);
+  renderNotifs(soon, document.getElementById('notif-soon'), 'warn', e=>`Expires ${e.expiry}`);
+  renderNotifs(low, document.getElementById('notif-low'), 'warn', item=>`${item.av} aliquot${item.av!==1?'s':''} remaining`);
+  document.getElementById('notif-expired-section').style.display=expired.length?'':'none';
+  document.getElementById('notif-soon-section').style.display=soon.length?'':'none';
+  document.getElementById('notif-low-section').style.display=low.length?'':'none';
+  document.getElementById('notif-empty').style.display=total===0?'':'none';
+}
+
+// ── Barcode modal (aliquot) ───────────────────────────────────
+function openBarcodeModal(reagentId, aliquotId) {
+  const entry=db.find(e=>e.id===reagentId); if(!entry) return;
+  const al=entry.aliquots.find(a=>a.id===aliquotId); if(!al) return;
+  currentAliquotId=aliquotId; currentId=reagentId;
+  document.getElementById('bm-id').textContent=aliquotId;
+  document.getElementById('bm-name').textContent=entry.name+(al.note?' · '+al.note:'');
+  document.getElementById('bm-vol').textContent=al.vol||'—';
+  document.getElementById('bm-storage').textContent=entry.storage||'—';
+  document.getElementById('bm-expiry').textContent=entry.expiry||'—';
+  document.getElementById('bm-thawed').textContent=al.thawedDate||'—';
+  renderBarcodeStatus(al);
+  const url=getBaseUrl()+'/#'+aliquotId;
+  document.getElementById('bm-barcode-label').textContent=url;
+  JsBarcode('#bm-barcode',aliquotId,{format:'CODE128',width:2,height:55,displayValue:true,font:'IBM Plex Mono',fontSize:11,margin:8,background:'#ffffff',lineColor:'#1a1916'});
+  document.getElementById('barcode-modal-overlay').classList.add('open');
+}
+
+function renderBarcodeStatus(al) {
+  document.getElementById('bm-status').textContent={available:'Available',thawed:'Thawed (first thaw recorded)',consumed:'Consumed'}[al.status]||'—';
+  document.getElementById('bm-btn-consume').textContent=al.status==='consumed'?'Mark available':'Mark consumed';
+  document.getElementById('bm-btn-thaw').textContent=al.status==='thawed'?'Unmark thawed':'Mark thawed (1st time)';
+}
+
+async function aliquotAction(status) {
+  await setAliquotStatus(currentId, currentAliquotId, status);
+  const al=db.find(e=>e.id===currentId)?.aliquots.find(a=>a.id===currentAliquotId);
+  if(al) renderBarcodeStatus(al);
+}
+
+function closeBarcodeModal(e) {
+  if(e&&e.target!==document.getElementById('barcode-modal-overlay')) return;
+  document.getElementById('barcode-modal-overlay').classList.remove('open'); currentAliquotId=null;
+}
+
+// ── Detail modal ─────────────────────────────────────────────
+function openModal(id) {
+  const e=db.find(x=>x.id===id); if(!e) return;
+  currentId=id;
+  document.getElementById('m-id').textContent=e.id;
+  document.getElementById('m-name').innerHTML=esc(e.name)+(e.isKey?' <span class="key-reagent-tag">key</span>':'');
+  document.getElementById('m-manufacturer').textContent=e.manufacturer||'—';
+  document.getElementById('m-lot').textContent=e.lot||'—';
+  document.getElementById('m-expiry').textContent=e.expiry||'—';
+  document.getElementById('m-storage').textContent=e.storage||'—';
+  document.getElementById('m-project').textContent=e.project||'—';
+  document.getElementById('m-date').textContent=e.added||'—';
+  document.getElementById('m-notes').textContent=e.notes||'—';
+  document.getElementById('e-key').checked=e.isKey||false;
+  document.getElementById('e-notify-low').checked=e.notifyLow||false;
+  document.getElementById('e-notify-exp').checked=e.notifyExp!==false;
+  document.getElementById('e-low-threshold').value=e.lowThreshold||2;
+  renderModalAliquots(e); cancelEdit();
   document.getElementById('modal-overlay').classList.add('open');
-  window.location.hash = id;
+  window.location.hash=id;
+}
+
+function renderModalAliquots(e) {
+  document.getElementById('m-aliquots-list').innerHTML=(e.aliquots||[]).map(a=>{
+    const cls=a.status==='consumed'?'consumed':a.status==='thawed'?'thawed':'';
+    const pill=a.status==='consumed'?`<span class="status-pill pill-consumed">consumed</span>`:a.status==='thawed'?`<span class="status-pill pill-thawed">thawed</span>`:`<span class="status-pill pill-available">available</span>`;
+    return `<div class="modal-aliquot-row ${cls}">
+      <div class="modal-aliquot-id">${esc(a.id)}${a.note?`<br><span style="color:var(--text-faint)">${esc(a.note)}</span>`:''}${a.thawedDate?`<br><span style="color:#856404;font-size:10px">thawed ${esc(a.thawedDate)}</span>`:''}</div>
+      <div style="font-size:12px">${esc(a.vol||'—')}</div>
+      <div>${pill}</div>
+      <div class="modal-aliquot-btns">
+        <button class="icon-btn${a.status==='thawed'?' active':''}" onclick="setAliquotStatus('${e.id}','${a.id}','thawed')" title="Toggle thawed">❄</button>
+        <button class="icon-btn${a.status==='consumed'?' active':''}" onclick="setAliquotStatus('${e.id}','${a.id}','consumed')" title="Toggle consumed">✓</button>
+        <button class="icon-btn" onclick="openBarcodeModal('${e.id}','${a.id}')" title="Barcode">⊞</button>
+      </div>
+    </div>`;
+  }).join('')||'<div style="color:var(--text-faint);font-size:12px;font-family:var(--mono);padding:8px 0">No aliquots.</div>';
 }
 
 function startEdit() {
-  const e = db.find(x => x.id === currentId);
-  if (!e) return;
-  // Populate edit inputs
-  document.getElementById('e-name').value         = e.name || '';
-  document.getElementById('e-manufacturer').value = e.manufacturer || '';
-  document.getElementById('e-lot').value          = e.lot || '';
-  document.getElementById('e-expiry').value       = e.expiry || '';
-  document.getElementById('e-storage').value      = e.storage || '';
-  document.getElementById('e-conc').value         = e.conc || '';
-  document.getElementById('e-aliquot').value      = e.aliquot || '';
-  document.getElementById('e-project').value      = e.project || '';
-  document.getElementById('e-notes').value        = e.notes || '';
-  document.querySelector('.modal').classList.add('editing');
-  document.getElementById('btn-edit').style.display      = 'none';
-  document.getElementById('btn-copy').style.display      = 'none';
-  document.getElementById('btn-print').style.display     = 'none';
-  document.getElementById('btn-delete').style.display    = 'none';
-  document.getElementById('btn-cancel').style.display    = '';
-  document.getElementById('btn-save-edit').style.display = '';
+  const e=db.find(x=>x.id===currentId); if(!e) return;
+  document.getElementById('e-manufacturer').value=e.manufacturer||'';
+  document.getElementById('e-lot').value=e.lot||'';
+  document.getElementById('e-expiry').value=e.expiry||'';
+  document.getElementById('e-storage').value=e.storage||'';
+  document.getElementById('e-project').value=e.project||'';
+  document.getElementById('e-notes').value=e.notes||'';
+  document.querySelector('#modal-overlay .modal').classList.add('editing');
+  document.getElementById('btn-edit').style.display='none';
+  document.getElementById('btn-cancel').style.display='';
+  document.getElementById('btn-save-edit').style.display='';
 }
-
 function cancelEdit() {
-  document.querySelector('.modal').classList.remove('editing');
-  document.getElementById('btn-edit').style.display      = '';
-  document.getElementById('btn-copy').style.display      = '';
-  document.getElementById('btn-print').style.display     = '';
-  document.getElementById('btn-delete').style.display    = '';
-  document.getElementById('btn-cancel').style.display    = 'none';
-  document.getElementById('btn-save-edit').style.display = 'none';
+  document.querySelector('#modal-overlay .modal').classList.remove('editing');
+  document.getElementById('btn-edit').style.display='';
+  document.getElementById('btn-cancel').style.display='none';
+  document.getElementById('btn-save-edit').style.display='none';
 }
-
 async function saveEdit() {
-  const idx = db.findIndex(x => x.id === currentId);
-  if (idx === -1) return;
-  const name = document.getElementById('e-name').value.trim();
-  if (!name) { alert('Name is required.'); return; }
-  db[idx] = {
-    ...db[idx],
-    name,
-    manufacturer: document.getElementById('e-manufacturer').value.trim(),
-    lot:          document.getElementById('e-lot').value.trim(),
-    expiry:       document.getElementById('e-expiry').value,
-    storage:      document.getElementById('e-storage').value.trim(),
-    conc:         document.getElementById('e-conc').value.trim(),
-    aliquot:      document.getElementById('e-aliquot').value.trim(),
-    project:      document.getElementById('e-project').value.trim(),
-    notes:        document.getElementById('e-notes').value.trim(),
-  };
-  cancelEdit();
-  openModal(currentId); // refresh display
-  renderList();
-  await save();
+  const idx=db.findIndex(x=>x.id===currentId); if(idx===-1) return;
+  db[idx]={...db[idx], manufacturer:document.getElementById('e-manufacturer').value.trim(), lot:document.getElementById('e-lot').value.trim(), expiry:document.getElementById('e-expiry').value, storage:document.getElementById('e-storage').value.trim(), project:document.getElementById('e-project').value.trim(), notes:document.getElementById('e-notes').value.trim(), isKey:document.getElementById('e-key').checked, notifyLow:document.getElementById('e-notify-low').checked, notifyExp:document.getElementById('e-notify-exp').checked, lowThreshold:parseInt(document.getElementById('e-low-threshold').value)||2};
+  cancelEdit(); openModal(currentId); renderList(); renderAlerts(); await save();
 }
-
-function copyEntry() {
-  const e = db.find(x => x.id === currentId);
-  if (!e) return;
-  closeModal();
-  // Pre-fill the add form with this entry's values (except id and added date)
-  document.getElementById('f-type').value         = e.type || 'R';
-  document.getElementById('f-name').value         = e.name || '';
-  document.getElementById('f-manufacturer').value = e.manufacturer || '';
-  document.getElementById('f-lot').value          = e.lot || '';
-  document.getElementById('f-expiry').value       = e.expiry || '';
-  document.getElementById('f-storage').value      = e.storage || '';
-  document.getElementById('f-conc').value         = e.conc || '';
-  document.getElementById('f-aliquot').value      = e.aliquot || '';
-  document.getElementById('f-project').value      = e.project || '';
-  document.getElementById('f-notes').value        = e.notes || '';
-  showTab('add');
-  updatePreviewId();
-}
-
 function closeModal(e) {
-  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  if(e&&e.target!==document.getElementById('modal-overlay')) return;
   document.getElementById('modal-overlay').classList.remove('open');
-  history.replaceState(null, '', window.location.pathname);
-  currentId = null;
+  history.replaceState(null,'',window.location.pathname); currentId=null;
 }
-
 function handleHash() {
-  const hash = window.location.hash.slice(1);
-  if (hash && db.find(e => e.id === hash)) openModal(hash);
+  const h=window.location.hash.slice(1); if(!h) return;
+  const r=db.find(e=>e.id===h); if(r){openModal(h);return;}
+  for(const e of db){const a=(e.aliquots||[]).find(a=>a.id===h); if(a){openBarcodeModal(e.id,a.id);return;}}
 }
 
 // ── Tabs ─────────────────────────────────────────────────────
 function showTab(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  const tabs = ['browse', 'add', 'setup'];
-  document.querySelectorAll('.tab')[tabs.indexOf(name)].classList.add('active');
-  if (name === 'add') updatePreviewId();
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  const tabs=['browse','add','alerts'];
+  document.querySelectorAll('.tab')[tabs.indexOf(name)]?.classList.add('active');
+  if(name==='add'){buildAliquotRows();updatePreviewId();}
+  if(name==='alerts') renderAlerts();
 }
 
-// ── Export / Import ──────────────────────────────────────────
-function exportJSON() {
-  download('lab-registry-backup.json', JSON.stringify(db, null, 2), 'application/json');
+// ── Config modal ─────────────────────────────────────────────
+function openConfigModal() {
+  document.getElementById('gh-token').value = localStorage.getItem('gh-token') || '';
+  document.getElementById('config-modal-overlay').classList.add('open');
+}
+function closeConfigModal(e) {
+  if(e&&e.target!==document.getElementById('config-modal-overlay')) return;
+  document.getElementById('config-modal-overlay').classList.remove('open');
 }
 
-async function importJSON() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = '.json';
-  input.onchange = async e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async ev => {
-      try {
-        const data = JSON.parse(ev.target.result);
-        if (!Array.isArray(data)) throw new Error('Not an array');
-        if (confirm('This will merge ' + data.length + ' entries. Duplicates (same ID) will be skipped. Continue?')) {
-          const existingIds = new Set(db.map(e => e.id));
-          const newEntries = data.filter(e => !existingIds.has(e.id));
-          db = [...db, ...newEntries];
-          renderList();
-          await save();
-          alert('Imported ' + newEntries.length + ' new entries.');
-        }
-      } catch(err) { alert('Invalid JSON file.'); }
-    };
-    reader.readAsText(file);
-  };
+// ── Export / Import ───────────────────────────────────────────
+function exportJSON(){download('lab-registry-backup.json',JSON.stringify(db,null,2),'application/json');}
+async function importJSON(){
+  const input=document.createElement('input'); input.type='file'; input.accept='.json';
+  input.onchange=async ev=>{
+    const f=ev.target.files[0]; if(!f) return;
+    const r=new FileReader(); r.onload=async e=>{
+      try{ const d=JSON.parse(e.target.result); if(!Array.isArray(d)) throw 0;
+        if(confirm('Merge '+d.length+' entries? Duplicates skipped.')){
+          const ids=new Set(db.map(e=>e.id)); db=[...db,...d.filter(e=>!ids.has(e.id)).map(migrate)];
+          renderList();renderAlerts();await save();alert('Imported.');}}catch{alert('Invalid JSON.');}};
+    r.readAsText(f);};
   input.click();
 }
+function download(fn,c,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=fn;a.click();}
 
-function download(filename, content, type) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], { type }));
-  a.download = filename;
-  a.click();
-}
+// ── Helpers ───────────────────────────────────────────────────
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-// ── Boot ─────────────────────────────────────────────────────
-window.addEventListener('load', init);
+window.addEventListener('load',init);
 </script>
 </body>
 </html>
