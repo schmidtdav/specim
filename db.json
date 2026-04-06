@@ -1,5 +1,9 @@
 [
   {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
     "id": "R-2026-0001",
     "type": "R",
     "name": "test reagent 001",
@@ -12,10 +16,6 @@
     "project": "",
     "notes": "",
     "added": "2026-04-05",
-    "isKey": false,
-    "notifyLow": false,
-    "notifyExp": true,
-    "lowThreshold": 2,
     "aliquots": [
       {
         "id": "R-2026-0001-A1",
@@ -27,6 +27,10 @@
     ]
   },
   {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
     "id": "R-2026-0002",
     "type": "R",
     "name": "PBS 10x",
@@ -37,10 +41,6 @@
     "project": "",
     "notes": "",
     "added": "2026-04-06",
-    "isKey": true,
-    "notifyLow": true,
-    "notifyExp": true,
-    "lowThreshold": 1,
     "aliquots": [
       {
         "id": "R-2026-0002-A1",
@@ -53,6 +53,1225 @@
         "id": "R-2026-0002-A2",
         "vol": "500 mL",
         "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 3,
+    "id": "R-2025-0001",
+    "type": "R",
+    "name": "PBS 10× Concentrate",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "BCDF1234",
+    "expiry": "2026-08-15",
+    "storage": "RT, shelf A1",
+    "project": "General",
+    "notes": "Dilute 1:10 before use. Check pH after dilution (should be 7.4).",
+    "added": "2025-01-10",
+    "aliquots": [
+      {
+        "id": "R-2025-0001-A1",
+        "vol": "500 ml",
+        "note": "Bottle 1",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0001-A2",
+        "vol": "500 ml",
+        "note": "Bottle 2",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0001-A3",
+        "vol": "500 ml",
+        "note": "Bottle 3",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0001-A4",
+        "vol": "500 ml",
+        "note": "Bottle 4",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0002",
+    "type": "R",
+    "name": "Trypsin-EDTA 0.25%",
+    "manufacturer": "Gibco",
+    "lot": "2341567",
+    "expiry": "2025-06-01",
+    "storage": "-20 C, rack B2",
+    "project": "Cell culture",
+    "notes": "Pre-warm to 37 C before use. Single-use aliquots.",
+    "added": "2025-01-15",
+    "aliquots": [
+      {
+        "id": "R-2025-0002-A1",
+        "vol": "5 ml",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-02-01"
+      },
+      {
+        "id": "R-2025-0002-A2",
+        "vol": "5 ml",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-02-14"
+      },
+      {
+        "id": "R-2025-0002-A3",
+        "vol": "5 ml",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-03-03"
+      },
+      {
+        "id": "R-2025-0002-A4",
+        "vol": "5 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0002-A5",
+        "vol": "5 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0003",
+    "type": "R",
+    "name": "DMEM High Glucose",
+    "manufacturer": "Gibco",
+    "lot": "8823001",
+    "expiry": "2026-03-20",
+    "storage": "4 C, fridge 1",
+    "project": "Cell culture",
+    "notes": "Supplement with 10% FBS and 1% pen-strep before use.",
+    "added": "2025-01-20",
+    "aliquots": [
+      {
+        "id": "R-2025-0003-A1",
+        "vol": "500 ml",
+        "note": "Bottle 1",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0003-A2",
+        "vol": "500 ml",
+        "note": "Bottle 2",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0003-A3",
+        "vol": "500 ml",
+        "note": "Bottle 3",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 4,
+    "id": "R-2025-0004",
+    "type": "R",
+    "name": "Fetal Bovine Serum (FBS)",
+    "manufacturer": "Thermo Fisher",
+    "lot": "FBS-9921X",
+    "expiry": "2027-01-01",
+    "storage": "-20 C, freezer 2, shelf C",
+    "project": "Cell culture",
+    "notes": "Heat-inactivate at 56 C for 30 min before use. Aliquoted into 50 ml tubes.",
+    "added": "2025-02-01",
+    "aliquots": [
+      {
+        "id": "R-2025-0004-A1",
+        "vol": "50 ml",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-02-10"
+      },
+      {
+        "id": "R-2025-0004-A2",
+        "vol": "50 ml",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-03-01"
+      },
+      {
+        "id": "R-2025-0004-A3",
+        "vol": "50 ml",
+        "note": "",
+        "status": "thawed",
+        "thawedDate": "2025-04-02"
+      },
+      {
+        "id": "R-2025-0004-A4",
+        "vol": "50 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0004-A5",
+        "vol": "50 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0004-A6",
+        "vol": "50 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0004-A7",
+        "vol": "50 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0004-A8",
+        "vol": "50 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "R-2025-0005",
+    "type": "R",
+    "name": "Lipofectamine 3000",
+    "manufacturer": "Invitrogen",
+    "lot": "L3K-2240",
+    "expiry": "2025-05-10",
+    "storage": "4 C, fridge 2",
+    "project": "Transfection",
+    "notes": "Keep on ice during use. Do not vortex.",
+    "added": "2025-02-05",
+    "aliquots": [
+      {
+        "id": "R-2025-0005-A1",
+        "vol": "1.5 ml",
+        "note": "Main vial",
+        "status": "thawed",
+        "thawedDate": "2025-03-15"
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0006",
+    "type": "R",
+    "name": "Puromycin Dihydrochloride",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "MKCL4421",
+    "expiry": "2026-11-30",
+    "storage": "-20 C, rack A1",
+    "project": "Selection",
+    "notes": "Stock at 10 mg/ml in PBS. Working concentration 1-10 ug/ml depending on cell line.",
+    "added": "2025-02-10",
+    "aliquots": [
+      {
+        "id": "R-2025-0006-A1",
+        "vol": "200 ul",
+        "note": "10 mg/ml stock",
+        "status": "consumed",
+        "thawedDate": "2025-02-20"
+      },
+      {
+        "id": "R-2025-0006-A2",
+        "vol": "200 ul",
+        "note": "10 mg/ml stock",
+        "status": "consumed",
+        "thawedDate": "2025-03-10"
+      },
+      {
+        "id": "R-2025-0006-A3",
+        "vol": "200 ul",
+        "note": "10 mg/ml stock",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0006-A4",
+        "vol": "200 ul",
+        "note": "10 mg/ml stock",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0006-A5",
+        "vol": "200 ul",
+        "note": "10 mg/ml stock",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0007",
+    "type": "R",
+    "name": "RIPA Lysis Buffer",
+    "manufacturer": "Cell Signaling Technology",
+    "lot": "CST-7714",
+    "expiry": "2026-06-01",
+    "storage": "4 C, fridge 1",
+    "project": "Protein extraction",
+    "notes": "Add protease inhibitor cocktail fresh before use (1:100). Do not freeze.",
+    "added": "2025-02-14",
+    "aliquots": [
+      {
+        "id": "R-2025-0007-A1",
+        "vol": "10 ml",
+        "note": "without PI",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "R-2025-0008",
+    "type": "R",
+    "name": "Anti-beta-Actin Antibody (8H10D10)",
+    "manufacturer": "Cell Signaling Technology",
+    "lot": "AB-3700S",
+    "expiry": "2026-09-01",
+    "storage": "4 C, fridge 2, antibody box",
+    "project": "Western blot",
+    "notes": "Mouse mAb. WB dilution 1:2000. Store in 0.02% sodium azide.",
+    "added": "2025-02-20",
+    "aliquots": [
+      {
+        "id": "R-2025-0008-A1",
+        "vol": "200 ul",
+        "note": "WB primary",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0009",
+    "type": "R",
+    "name": "DAPI Nuclear Stain",
+    "manufacturer": "Thermo Fisher",
+    "lot": "62248-TF",
+    "expiry": "2028-01-01",
+    "storage": "-20 C, rack A3, light-protected",
+    "project": "Imaging",
+    "notes": "Stock 5 mg/ml in DMSO. Working 0.1-1 ug/ml. Light sensitive.",
+    "added": "2025-03-01",
+    "aliquots": [
+      {
+        "id": "R-2025-0009-A1",
+        "vol": "100 ul",
+        "note": "5 mg/ml DMSO",
+        "status": "thawed",
+        "thawedDate": "2025-03-20"
+      },
+      {
+        "id": "R-2025-0009-A2",
+        "vol": "100 ul",
+        "note": "5 mg/ml DMSO",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0009-A3",
+        "vol": "100 ul",
+        "note": "5 mg/ml DMSO",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0010",
+    "type": "R",
+    "name": "Matrigel Basement Membrane Matrix",
+    "manufacturer": "Corning",
+    "lot": "MG-5510-C",
+    "expiry": "2025-12-01",
+    "storage": "-20 C, freezer 1",
+    "project": "3D culture / invasion assay",
+    "notes": "Thaw overnight at 4 C. Keep on ice at all times. Polymerizes at RT.",
+    "added": "2025-03-05",
+    "aliquots": [
+      {
+        "id": "R-2025-0010-A1",
+        "vol": "500 ul",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-03-10"
+      },
+      {
+        "id": "R-2025-0010-A2",
+        "vol": "500 ul",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": "2025-03-25"
+      },
+      {
+        "id": "R-2025-0010-A3",
+        "vol": "500 ul",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0010-A4",
+        "vol": "500 ul",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 3,
+    "id": "R-2025-0011",
+    "type": "R",
+    "name": "Recombinant Human EGF",
+    "manufacturer": "PeproTech",
+    "lot": "EGF-0312",
+    "expiry": "2027-06-01",
+    "storage": "-80 C, freezer 3, rack 1",
+    "project": "Growth factor stimulation",
+    "notes": "Reconstitute in PBS + 0.1% BSA at 100 ug/ml. Single-use aliquots. Do not refreeze.",
+    "added": "2025-03-10",
+    "aliquots": [
+      {
+        "id": "R-2025-0011-A1",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "consumed",
+        "thawedDate": "2025-03-12"
+      },
+      {
+        "id": "R-2025-0011-A2",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "consumed",
+        "thawedDate": "2025-03-19"
+      },
+      {
+        "id": "R-2025-0011-A3",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "consumed",
+        "thawedDate": "2025-04-01"
+      },
+      {
+        "id": "R-2025-0011-A4",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0011-A5",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0011-A6",
+        "vol": "10 ul",
+        "note": "100 ug/ml",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0012",
+    "type": "R",
+    "name": "Propidium Iodide",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "PI-7898",
+    "expiry": "2027-03-01",
+    "storage": "4 C, fridge 2, light-protected",
+    "project": "Flow cytometry",
+    "notes": "1 mg/ml stock solution. Working conc. 1 ug/ml. Mutagenic - handle with care.",
+    "added": "2025-03-15",
+    "aliquots": [
+      {
+        "id": "R-2025-0012-A1",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0013",
+    "type": "R",
+    "name": "Protease Inhibitor Cocktail (cOmplete)",
+    "manufacturer": "Roche",
+    "lot": "cOmplete-1122",
+    "expiry": "2025-04-30",
+    "storage": "-20 C, rack B3",
+    "project": "Protein extraction",
+    "notes": "EDTA-free variant. Add 1 tablet per 10 ml lysis buffer immediately before use.",
+    "added": "2025-01-05",
+    "aliquots": [
+      {
+        "id": "R-2025-0013-A1",
+        "vol": "1 tablet",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0013-A2",
+        "vol": "1 tablet",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0013-A3",
+        "vol": "1 tablet",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0013-A4",
+        "vol": "1 tablet",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0013-A5",
+        "vol": "1 tablet",
+        "note": "",
+        "status": "consumed",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0014",
+    "type": "R",
+    "name": "Hoechst 33342",
+    "manufacturer": "Thermo Fisher",
+    "lot": "H3570-TF",
+    "expiry": "2028-06-01",
+    "storage": "4 C, fridge 2, light-protected",
+    "project": "Live cell imaging",
+    "notes": "10 mg/ml in water. Use at 1 ug/ml for live staining. Compatible with live cells unlike DAPI.",
+    "added": "2025-03-22",
+    "aliquots": [
+      {
+        "id": "R-2025-0014-A1",
+        "vol": "200 ul",
+        "note": "10 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0014-A2",
+        "vol": "200 ul",
+        "note": "10 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0015",
+    "type": "R",
+    "name": "Wortmannin (PI3K Inhibitor)",
+    "manufacturer": "Cayman Chemical",
+    "lot": "WM-0044",
+    "expiry": "2026-02-28",
+    "storage": "-20 C, rack C1, desiccated",
+    "project": "AURORA",
+    "notes": "100 uM stock in DMSO. Use at 100 nM-1 uM. Toxic - avoid skin contact.",
+    "added": "2025-03-28",
+    "aliquots": [
+      {
+        "id": "R-2025-0015-A1",
+        "vol": "50 ul",
+        "note": "100 uM DMSO",
+        "status": "thawed",
+        "thawedDate": "2025-04-01"
+      },
+      {
+        "id": "R-2025-0015-A2",
+        "vol": "50 ul",
+        "note": "100 uM DMSO",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0015-A3",
+        "vol": "50 ul",
+        "note": "100 uM DMSO",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0015-A4",
+        "vol": "50 ul",
+        "note": "100 uM DMSO",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "S-2025-0001",
+    "type": "S",
+    "name": "HeLa Lysate - EGF 10 min",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2026-04-06",
+    "storage": "-80 C, freezer 3, rack 2",
+    "project": "AURORA",
+    "notes": "Harvested 10 min post EGF (50 ng/ml) stimulation. Protein conc. 2.1 mg/ml (BCA). Passage 14.",
+    "added": "2025-04-06",
+    "aliquots": [
+      {
+        "id": "S-2025-0001-A1",
+        "vol": "50 ul",
+        "note": "WB",
+        "status": "consumed",
+        "thawedDate": "2025-04-07"
+      },
+      {
+        "id": "S-2025-0001-A2",
+        "vol": "50 ul",
+        "note": "WB replicate",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0001-A3",
+        "vol": "100 ul",
+        "note": "IP",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0001-A4",
+        "vol": "100 ul",
+        "note": "IP backup",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0001-A5",
+        "vol": "50 ul",
+        "note": "backup",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "S-2025-0002",
+    "type": "S",
+    "name": "HeLa Lysate - Unstimulated control",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2026-04-06",
+    "storage": "-80 C, freezer 3, rack 2",
+    "project": "AURORA",
+    "notes": "Serum-starved 16h before harvest. Control matched to S-2025-0001. Protein conc. 1.9 mg/ml.",
+    "added": "2025-04-06",
+    "aliquots": [
+      {
+        "id": "S-2025-0002-A1",
+        "vol": "50 ul",
+        "note": "WB",
+        "status": "consumed",
+        "thawedDate": "2025-04-07"
+      },
+      {
+        "id": "S-2025-0002-A2",
+        "vol": "50 ul",
+        "note": "WB replicate",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0002-A3",
+        "vol": "100 ul",
+        "note": "IP",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0002-A4",
+        "vol": "50 ul",
+        "note": "backup",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "S-2025-0003",
+    "type": "S",
+    "name": "Patient Serum #12 - Pre-treatment",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2026-01-15",
+    "storage": "-80 C, freezer 2, rack 4",
+    "project": "Clinical cohort B",
+    "notes": "Collected 2025-01-15. Anonymised ID PAT-012. ELISA and proteomics use only.",
+    "added": "2025-01-16",
+    "aliquots": [
+      {
+        "id": "S-2025-0003-A1",
+        "vol": "100 ul",
+        "note": "ELISA run 1",
+        "status": "consumed",
+        "thawedDate": "2025-02-10"
+      },
+      {
+        "id": "S-2025-0003-A2",
+        "vol": "100 ul",
+        "note": "ELISA run 2",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0003-A3",
+        "vol": "200 ul",
+        "note": "proteomics",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "S-2025-0004",
+    "type": "S",
+    "name": "Patient Serum #12 - Post-treatment",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2026-03-20",
+    "storage": "-80 C, freezer 2, rack 4",
+    "project": "Clinical cohort B",
+    "notes": "Collected 2025-03-20, 8 weeks post-treatment start. Match with S-2025-0003.",
+    "added": "2025-03-21",
+    "aliquots": [
+      {
+        "id": "S-2025-0004-A1",
+        "vol": "100 ul",
+        "note": "ELISA",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0004-A2",
+        "vol": "200 ul",
+        "note": "proteomics",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0004-A3",
+        "vol": "100 ul",
+        "note": "backup",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0016",
+    "type": "R",
+    "name": "HEPES Buffer 1M",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "HEPES-77610",
+    "expiry": "2027-12-01",
+    "storage": "4 C, fridge 1",
+    "project": "General",
+    "notes": "Filter-sterilised. Dilute to 25 mM working concentration. pH 7.4.",
+    "added": "2025-01-08",
+    "aliquots": [
+      {
+        "id": "R-2025-0016-A1",
+        "vol": "100 ml",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 3,
+    "id": "R-2025-0017",
+    "type": "R",
+    "name": "Doxycycline Hyclate",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "D9891-5G",
+    "expiry": "2026-07-01",
+    "storage": "-20 C, rack A2, light-protected",
+    "project": "Inducible expression",
+    "notes": "Stock 1 mg/ml in H2O. Use at 1 ug/ml to induce. Make fresh monthly - degrades in solution.",
+    "added": "2025-02-25",
+    "aliquots": [
+      {
+        "id": "R-2025-0017-A1",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "consumed",
+        "thawedDate": "2025-03-01"
+      },
+      {
+        "id": "R-2025-0017-A2",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "consumed",
+        "thawedDate": "2025-04-01"
+      },
+      {
+        "id": "R-2025-0017-A3",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0017-A4",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0017-A5",
+        "vol": "500 ul",
+        "note": "1 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "R-2025-0018",
+    "type": "R",
+    "name": "GFP Polyclonal Antibody",
+    "manufacturer": "Abcam",
+    "lot": "AB290-AB",
+    "expiry": "2024-11-01",
+    "storage": "-20 C, antibody box, rack A",
+    "project": "AURORA",
+    "notes": "Rabbit pAb. WB 1:1000, IF 1:200. WARNING: expiry passed - verify functionality before use.",
+    "added": "2024-08-01",
+    "aliquots": [
+      {
+        "id": "R-2025-0018-A1",
+        "vol": "100 ul",
+        "note": "WB/IF",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0019",
+    "type": "R",
+    "name": "Hygromycin B",
+    "manufacturer": "Invivogen",
+    "lot": "HYG-INV-44",
+    "expiry": "2026-05-01",
+    "storage": "4 C, fridge 2",
+    "project": "Selection",
+    "notes": "50 mg/ml stock. Working conc. 200-600 ug/ml (cell-line dependent). Toxic.",
+    "added": "2025-02-18",
+    "aliquots": [
+      {
+        "id": "R-2025-0019-A1",
+        "vol": "1 ml",
+        "note": "50 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0019-A2",
+        "vol": "1 ml",
+        "note": "50 mg/ml",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "id": "R-2025-0020",
+    "type": "R",
+    "name": "BCA Protein Assay Kit",
+    "manufacturer": "Thermo Fisher",
+    "lot": "BCA-23225",
+    "expiry": "2025-10-01",
+    "storage": "RT, shelf B2",
+    "project": "General",
+    "notes": "Reagent A stable at RT. Reagent B stable at RT. Mix 50:1 A:B. Incubate 30 min at 37 C.",
+    "added": "2025-01-12",
+    "aliquots": [
+      {
+        "id": "R-2025-0020-A1",
+        "vol": "1 kit",
+        "note": "Reagents A+B",
+        "status": "thawed",
+        "thawedDate": "2025-02-05"
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "S-2025-0005",
+    "type": "S",
+    "name": "MCF-7 Genomic DNA",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2027-04-06",
+    "storage": "-20 C, rack D1",
+    "project": "Sequencing panel",
+    "notes": "Extracted with DNeasy kit. Concentration 245 ng/ul (Nanodrop), 260/280 = 1.91. Passage 22.",
+    "added": "2025-04-06",
+    "aliquots": [
+      {
+        "id": "S-2025-0005-A1",
+        "vol": "20 ul",
+        "note": "WGS",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0005-A2",
+        "vol": "20 ul",
+        "note": "panel seq",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0005-A3",
+        "vol": "20 ul",
+        "note": "panel seq replicate",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "S-2025-0005-A4",
+        "vol": "50 ul",
+        "note": "backup",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0021",
+    "type": "R",
+    "name": "Staurosporine",
+    "manufacturer": "Cayman Chemical",
+    "lot": "STAU-81590",
+    "expiry": "2027-01-01",
+    "storage": "-20 C, rack C2",
+    "project": "Apoptosis assay",
+    "notes": "1 mM stock in DMSO. Use at 1 uM for apoptosis induction. Potent kinase inhibitor - handle carefully.",
+    "added": "2025-03-18",
+    "aliquots": [
+      {
+        "id": "R-2025-0021-A1",
+        "vol": "25 ul",
+        "note": "1 mM DMSO",
+        "status": "consumed",
+        "thawedDate": "2025-03-20"
+      },
+      {
+        "id": "R-2025-0021-A2",
+        "vol": "25 ul",
+        "note": "1 mM DMSO",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0021-A3",
+        "vol": "25 ul",
+        "note": "1 mM DMSO",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0021-A4",
+        "vol": "25 ul",
+        "note": "1 mM DMSO",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0022",
+    "type": "R",
+    "name": "Paraformaldehyde 16% Stock",
+    "manufacturer": "Electron Microscopy Sciences",
+    "lot": "PFA-15710",
+    "expiry": "2025-04-15",
+    "storage": "4 C, chemical fridge",
+    "project": "Fixation / IF",
+    "notes": "Dilute to 4% in PBS for fixation. TOXIC and volatile - use in fume hood only. Dispose as chemical waste.",
+    "added": "2025-01-20",
+    "aliquots": [
+      {
+        "id": "R-2025-0022-A1",
+        "vol": "10 ml",
+        "note": "16% stock",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0022-A2",
+        "vol": "10 ml",
+        "note": "16% stock",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0023",
+    "type": "R",
+    "name": "Insulin-Transferrin-Selenium (ITS)",
+    "manufacturer": "Gibco",
+    "lot": "ITS-41400045",
+    "expiry": "2026-04-01",
+    "storage": "4 C, fridge 1",
+    "project": "Serum-free culture",
+    "notes": "100x supplement. Add 1:100 to serum-free medium. For serum-free or defined media formulations.",
+    "added": "2025-04-01",
+    "aliquots": [
+      {
+        "id": "R-2025-0023-A1",
+        "vol": "5 ml",
+        "note": "100x",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "id": "R-2025-0024",
+    "type": "R",
+    "name": "Sodium Orthovanadate (Phosphatase Inhibitor)",
+    "manufacturer": "Sigma-Aldrich",
+    "lot": "SOV-S6508",
+    "expiry": "2028-01-01",
+    "storage": "-20 C, rack B1",
+    "project": "Phosphoproteomics",
+    "notes": "Activate before use: boil until colourless, cool to RT, repeat. 200 mM stock.",
+    "added": "2025-02-08",
+    "aliquots": [
+      {
+        "id": "R-2025-0024-A1",
+        "vol": "100 ul",
+        "note": "200 mM activated",
+        "status": "consumed",
+        "thawedDate": "2025-02-15"
+      },
+      {
+        "id": "R-2025-0024-A2",
+        "vol": "100 ul",
+        "note": "200 mM activated",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0024-A3",
+        "vol": "100 ul",
+        "note": "200 mM activated",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0024-A4",
+        "vol": "100 ul",
+        "note": "200 mM activated",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0024-A5",
+        "vol": "100 ul",
+        "note": "200 mM activated",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
+  },
+  {
+    "isKey": false,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 2,
+    "id": "R-2025-0025",
+    "type": "R",
+    "name": "Annexin V FITC / PI Apoptosis Kit",
+    "manufacturer": "BD Biosciences",
+    "lot": "AV-556547",
+    "expiry": "2025-07-01",
+    "storage": "4 C, fridge 2, light-protected",
+    "project": "Apoptosis assay",
+    "notes": "Includes Annexin V-FITC, PI, and 10x binding buffer. Light sensitive. Run flow cytometry within 1h of staining.",
+    "added": "2025-03-10",
+    "aliquots": [
+      {
+        "id": "R-2025-0025-A1",
+        "vol": "1 test",
+        "note": "Exp 1 - Staurosporine dose response",
+        "status": "consumed",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0025-A2",
+        "vol": "1 test",
+        "note": "Exp 2",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2025-0025-A3",
+        "vol": "1 test",
+        "note": "Exp 3",
         "status": "available",
         "thawedDate": null
       }
