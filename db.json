@@ -21,8 +21,8 @@
         "id": "R-2026-0001-A1",
         "vol": "",
         "note": "",
-        "status": "consumed",
-        "thawedDate": null
+        "status": "thawed",
+        "thawedDate": "2026-04-06"
       }
     ]
   },
