@@ -1276,5 +1276,30 @@
         "thawedDate": null
       }
     ]
+  },
+  {
+    "id": "R000183",
+    "type": "R",
+    "name": "Test compound",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "",
+    "storage": "",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-06",
+    "isKey": false,
+    "notifyLow": false,
+    "notifyExp": false,
+    "lowThreshold": 2,
+    "aliquots": [
+      {
+        "id": "R000183-1",
+        "vol": "",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
   }
 ]
