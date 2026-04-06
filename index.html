@@ -169,6 +169,7 @@
 
   /* Modals */
   .modal-overlay { position: fixed; inset: 0; background: rgba(26,25,22,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  #barcode-modal-overlay { z-index: 300; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal { background: var(--surface); border-radius: var(--radius-lg); width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; transform: translateY(8px); transition: transform .2s; }
   .modal-overlay.open .modal { transform: translateY(0); }
@@ -347,7 +348,7 @@
       <div class="aliquot-builder" id="aliquot-builder">
         <div class="aliquot-builder-header"><span>Label / note</span><span>Volume</span><span></span></div>
         <div id="aliquot-rows"></div>
-        <div class="aliquot-builder-footer">Each aliquot receives a unique barcode ID (e.g. R-2025-0001-A1, A2…)</div>
+        <div class="aliquot-builder-footer">Each aliquot receives a unique barcode ID (e.g. R000112-1, R000112-2…)</div>
       </div>
 
       <div class="form-actions">
@@ -662,21 +663,33 @@ async function testConnection() {
 }
 
 // ── ID generation ─────────────────────────────────────────────
+// Format: {T}{NNNN}{CC}  e.g. R000112
+//   T    = type letter (R, S)
+//   NNNN = 4-digit global sequential per type (0001-9999)
+//   CC   = 2-digit checksum: (T_charcode + sum_of_NNNN_digits) mod 97, zero-padded
+// Aliquots: {base}-{n}  e.g. R000112-1, R000112-2
+function idChecksum(type, nn) {
+  const digits = String(nn).padStart(4,'0').split('').map(Number);
+  return String((type.charCodeAt(0) + digits.reduce((a,b)=>a+b,0)) % 97).padStart(2,'0');
+}
+function buildBaseId(type, nn) {
+  return `${type}${String(nn).padStart(4,'0')}${idChecksum(type, nn)}`;
+}
 function nextId(type) {
-  const yr = new Date().getFullYear();
-  const nums = db.filter(e=>e.id.startsWith(type+'-'+yr+'-')).map(e=>parseInt(e.id.split('-')[2])||0);
-  return `${type}-${yr}-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`;
+  const prefix = new RegExp(`^${type}(\\d{4})\\d{2}$`);
+  const nums = db.map(e=>{ const m=e.id.match(prefix); return m?parseInt(m[1]):0; }).filter(n=>n>0);
+  const next = nums.length ? Math.max(...nums)+1 : 1;
+  return buildBaseId(type, next);
 }
 function nextAliquotId(rid, aliquots) {
-  const nums = (aliquots||[]).map(a=>parseInt(a.id.split('-A').pop())||0);
-  return `${rid}-A${nums.length?Math.max(...nums)+1:1}`;
+  const nums = (aliquots||[]).map(a=>parseInt(a.id.split('-').pop())||0);
+  return `${rid}-${nums.length?Math.max(...nums)+1:1}`;
 }
-
 function updatePreviewId() {
   const type = document.getElementById('f-type').value;
   const count = parseInt(document.getElementById('f-aliquot-count').value)||1;
   const base = nextId(type);
-  document.getElementById('preview-id').textContent = count===1 ? base+'-A1' : base+'-A1 … '+base+`-A${count}`;
+  document.getElementById('preview-id').textContent = count===1 ? base+'-1' : base+'-1 … '+base+`-${count}`;
 }
 
 // ── Aliquot builder ───────────────────────────────────────────
@@ -713,8 +726,8 @@ async function addEntry() {
   const type = document.getElementById('f-type').value;
   const id = nextId(type);
   const rows = document.querySelectorAll('.aliquot-row');
-  const aliquots = [...rows].map((row,i)=>({ id:`${id}-A${i+1}`, vol:row.querySelector('.ar-vol').value.trim(), note:row.querySelector('.ar-note').value.trim(), status:'available', thawedDate:null }));
-  if (!aliquots.length) aliquots.push({ id:id+'-A1', vol:'', note:'', status:'available', thawedDate:null });
+  const aliquots = [...rows].map((row,i)=>({ id:`${id}-${i+1}`, vol:row.querySelector('.ar-vol').value.trim(), note:row.querySelector('.ar-note').value.trim(), status:'available', thawedDate:null }));
+  if (!aliquots.length) aliquots.push({ id:id+'-1', vol:'', note:'', status:'available', thawedDate:null });
   db.push({ id, type, name,
     manufacturer: document.getElementById('f-manufacturer').value.trim(),
     lot: document.getElementById('f-lot').value.trim(),
@@ -896,7 +909,7 @@ function openBarcodeModal(reagentId, aliquotId) {
   renderBarcodeStatus(al);
   const url=getBaseUrl()+'/#'+aliquotId;
   document.getElementById('bm-barcode-label').textContent=url;
-  JsBarcode('#bm-barcode',aliquotId,{format:'CODE128',width:2,height:55,displayValue:true,font:'IBM Plex Mono',fontSize:11,margin:8,background:'#ffffff',lineColor:'#1a1916'});
+  JsBarcode('#bm-barcode',aliquotId,{format:'CODE128',width:2,height:38,displayValue:true,font:'IBM Plex Mono',fontSize:11,margin:6,background:'#ffffff',lineColor:'#1a1916'});
   document.getElementById('barcode-modal-overlay').classList.add('open');
 }
 
