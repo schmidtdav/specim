@@ -25,5 +25,37 @@
         "thawedDate": null
       }
     ]
+  },
+  {
+    "id": "R-2026-0002",
+    "type": "R",
+    "name": "PBS 10x",
+    "manufacturer": "",
+    "lot": "",
+    "expiry": "2027-04-06",
+    "storage": "",
+    "project": "",
+    "notes": "",
+    "added": "2026-04-06",
+    "isKey": true,
+    "notifyLow": true,
+    "notifyExp": true,
+    "lowThreshold": 1,
+    "aliquots": [
+      {
+        "id": "R-2026-0002-A1",
+        "vol": "500 mL",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      },
+      {
+        "id": "R-2026-0002-A2",
+        "vol": "500 mL",
+        "note": "",
+        "status": "available",
+        "thawedDate": null
+      }
+    ]
   }
 ]
