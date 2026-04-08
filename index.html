@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lab Registry</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+<!-- bwip-js replaces JsBarcode; renders scannable Data Matrix codes -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/4.7.0/bwip-js-min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
@@ -196,9 +197,30 @@
   .modal-aliquot-id { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
   .modal-aliquot-btns { display: flex; gap: 4px; justify-content: flex-end; }
 
-  .barcode-section { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; margin-top: 16px; }
-  #barcode-container svg, #bm-barcode-container svg { max-width: 100%; height: auto; }
-  .barcode-label { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  /* ── Barcode / Data Matrix display ─────────────────────────── */
+  .barcode-section {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  /* The canvas rendered by bwip-js; keep it crisp – no smoothing */
+  #bm-barcode-canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .barcode-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    word-break: break-all;
+  }
 
   /* Edit mode */
   .modal.editing .detail-item span, .modal.editing .detail-notes p { display: none; }
@@ -220,11 +242,60 @@
   code { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; color: var(--text); }
   .code-block { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; color: var(--text-muted); margin-top: 8px; white-space: pre; overflow-x: auto; }
 
-  /* Print */
+  /* ── Print: label sized for 12 × 30 mm at ~203 dpi ─────────────
+     At 203 dpi: 12 mm ≈ 96 px tall, 30 mm ≈ 240 px wide.
+     We use a landscape label (width=30 mm, height=12 mm).
+     The Data Matrix sits on the left; the ID text wraps to the right.
+  ──────────────────────────────────────────────────────────────── */
   @media print {
-    header, .tabs, .toolbar, .modal-footer, .form-actions, #alerts-banner { display: none !important; }
-    .modal-overlay { position: static; background: none; padding: 0; }
-    .modal { max-height: none; box-shadow: none; border: none; }
+    /* Hide everything … */
+    body > * { display: none !important; }
+
+    /* … except the barcode modal overlay which becomes the whole page */
+    #barcode-modal-overlay { display: block !important; position: static !important; background: none !important; padding: 0 !important; opacity: 1 !important; pointer-events: none !important; }
+    #barcode-modal-overlay .modal { display: block !important; max-width: none !important; max-height: none !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; transform: none !important; width: auto !important; }
+
+    /* Hide modal chrome */
+    #barcode-modal-overlay .modal-header,
+    #barcode-modal-overlay .modal-footer,
+    #barcode-modal-overlay .modal-body > div:not(.barcode-section),
+    #barcode-modal-overlay .modal-body > div[style*="grid"] { display: none !important; }
+
+    /* The label itself: landscape 30 × 12 mm */
+    @page { size: 30mm 12mm landscape; margin: 0; }
+
+    .barcode-section {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      width: 30mm !important;
+      height: 12mm !important;
+      overflow: hidden !important;
+      gap: 1mm !important;
+    }
+
+    /* Data Matrix square: 10 mm × 10 mm leaves 2 mm for text */
+    #bm-barcode-canvas {
+      width: 10mm !important;
+      height: 10mm !important;
+      flex-shrink: 0 !important;
+      image-rendering: pixelated !important;
+    }
+
+    /* ID text beside the code */
+    .barcode-label {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 5pt !important;
+      color: #000 !important;
+      word-break: break-all !important;
+      line-height: 1.2 !important;
+      max-width: 18mm !important;
+      text-align: left !important;
+      margin-top: 0 !important;
+    }
   }
 
   /* Mobile */
@@ -377,62 +448,8 @@
     </div>
   </div>
 
-  <!-- SETUP (moved to footer modal) -->
-  <div class="view" id="view-setup" style="display:none!important">
-    <div class="setup-card">
-      <h2>Setup &amp; GitHub sync</h2>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>Create a GitHub repository</h3>
-          <p>Go to <a href="https://github.com/new" target="_blank">github.com/new</a>. Name it (e.g. <code>specim</code>), set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Upload this <code>index.html</code> file to the <code>main</code> branch.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>Enable GitHub Pages</h3>
-          <p>Go to <strong>Settings → Pages</strong>, set source to <strong>Deploy from branch → main / root</strong>. After ~1 min your registry is live.</p>
-          <div class="code-block">https://schmidtdav.github.io/specim/</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>Create a <code>data</code> branch with <code>db.json</code></h3>
-          <p>Branch dropdown → type <code>data</code> → Create. Switch to it, add <code>db.json</code> with content <code>[]</code>.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3>Create a Personal Access Token</h3>
-          <p><a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Settings → Developer settings → Fine-grained tokens</a>. Scope to this repo, <strong>Contents: Read and Write</strong>.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-body">
-          <h3>Paste your token below</h3>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
-            <div class="form-group"><label>GitHub owner</label><input type="text" value="schmidtdav" disabled style="opacity:.5;cursor:default"></div>
-            <div class="form-group"><label>Repository</label><input type="text" value="specim" disabled style="opacity:.5;cursor:default"></div>
-            <div class="form-group"><label>Branch</label><input type="text" value="data" disabled style="opacity:.5;cursor:default"></div>
-            <div class="form-group"><label>Personal Access Token</label><input type="text" id="gh-token" placeholder="github_pat_…" autocomplete="off" oninput="saveGhConfig()" style="font-family:var(--mono);font-size:12px"></div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <button class="btn btn-primary" onclick="testConnection()">Save &amp; test connection</button>
-              <span id="gh-status" style="font-size:12px;color:var(--text-muted)"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn" onclick="importJSON()">Import backup JSON</button>
-        <button class="btn" onclick="exportJSON()">Export backup JSON</button>
-      </div>
-      <p style="font-size:12px;color:var(--text-faint);margin-top:10px">Changes are saved to <code>db.json</code> in your GitHub repo. Token stored in browser only.</p>
-    </div>
-  </div>
+  <!-- SETUP (footer modal) -->
+  <div class="view" id="view-setup" style="display:none!important"></div>
 </div>
 
 <!-- BARCODE MODAL (per aliquot) -->
@@ -444,7 +461,12 @@
     </div>
     <div class="modal-body">
       <div class="barcode-section">
-        <div id="bm-barcode-container"><svg id="bm-barcode"></svg></div>
+        <!--
+          bwip-js renders directly into this canvas.
+          scale=5 → each Data Matrix module = 5 px → crisp on low-res printers.
+          No text inside the matrix; the ID appears below as plain text.
+        -->
+        <canvas id="bm-barcode-canvas"></canvas>
         <div class="barcode-label" id="bm-barcode-label"></div>
       </div>
       <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
@@ -663,11 +685,6 @@ async function testConnection() {
 }
 
 // ── ID generation ─────────────────────────────────────────────
-// Format: {T}{NNNN}{CC}  e.g. R000112
-//   T    = type letter (R, S)
-//   NNNN = 4-digit global sequential per type (0001-9999)
-//   CC   = 2-digit checksum: (T_charcode + sum_of_NNNN_digits) mod 97, zero-padded
-// Aliquots: {base}-{n}  e.g. R000112-1, R000112-2
 function idChecksum(type, nn) {
   const digits = String(nn).padStart(4,'0').split('').map(Number);
   return String((type.charCodeAt(0) + digits.reduce((a,b)=>a+b,0)) % 97).padStart(2,'0');
@@ -895,11 +912,43 @@ function renderAlerts() {
   document.getElementById('notif-empty').style.display=total===0?'':'none';
 }
 
+// ── Data Matrix rendering via bwip-js ─────────────────────────
+/**
+ * Render a Data Matrix barcode into the given canvas element.
+ *
+ * Tuned for a bad-resolution 12×30 mm label printer (≈203 dpi):
+ *   scale: 5  →  each module = 5 px  →  robust against bleed/drop-out
+ *   No human-readable text inside the matrix (printed separately below)
+ *   White padding (2 modules) keeps the quiet zone even on narrow labels
+ */
+function renderDataMatrix(canvasEl, text) {
+  try {
+    bwipjs.toCanvas(canvasEl, {
+      bcid:        'datamatrix',   // Data Matrix ECC 200
+      text:        text,
+      scale:       5,              // 5 px per module → crisp at 203 dpi
+      padding:     2,              // quiet-zone modules around the code
+      backgroundcolor: 'ffffff',
+      barcolor:        '1a1916',   // match --text colour
+    });
+  } catch (e) {
+    // Surface errors visibly during development
+    console.error('bwip-js Data Matrix error:', e);
+    const ctx = canvasEl.getContext('2d');
+    canvasEl.width  = 100;
+    canvasEl.height = 20;
+    ctx.fillStyle = '#c0392b';
+    ctx.font = '11px monospace';
+    ctx.fillText('DM error', 4, 14);
+  }
+}
+
 // ── Barcode modal (aliquot) ───────────────────────────────────
 function openBarcodeModal(reagentId, aliquotId) {
   const entry=db.find(e=>e.id===reagentId); if(!entry) return;
   const al=entry.aliquots.find(a=>a.id===aliquotId); if(!al) return;
   currentAliquotId=aliquotId; currentId=reagentId;
+
   document.getElementById('bm-id').textContent=aliquotId;
   document.getElementById('bm-name').textContent=entry.name+(al.note?' · '+al.note:'');
   document.getElementById('bm-vol').textContent=al.vol||'—';
@@ -907,9 +956,13 @@ function openBarcodeModal(reagentId, aliquotId) {
   document.getElementById('bm-expiry').textContent=entry.expiry||'—';
   document.getElementById('bm-thawed').textContent=al.thawedDate||'—';
   renderBarcodeStatus(al);
-  const url=getBaseUrl()+'/#'+aliquotId;
-  document.getElementById('bm-barcode-label').textContent=url;
-  JsBarcode('#bm-barcode',aliquotId,{format:'CODE128',width:2,height:38,displayValue:true,font:'IBM Plex Mono',fontSize:11,margin:6,background:'#ffffff',lineColor:'#1a1916'});
+
+  // Show the aliquot ID as the human-readable label under the matrix
+  document.getElementById('bm-barcode-label').textContent=aliquotId;
+
+  // Render the Data Matrix
+  renderDataMatrix(document.getElementById('bm-barcode-canvas'), aliquotId);
+
   document.getElementById('barcode-modal-overlay').classList.add('open');
 }
 
@@ -963,7 +1016,7 @@ function renderModalAliquots(e) {
       <div class="modal-aliquot-btns">
         <button class="icon-btn${a.status==='thawed'?' active':''}" onclick="setAliquotStatus('${e.id}','${a.id}','thawed')" title="Toggle thawed">❄</button>
         <button class="icon-btn${a.status==='consumed'?' active':''}" onclick="setAliquotStatus('${e.id}','${a.id}','consumed')" title="Toggle consumed">✓</button>
-        <button class="icon-btn" onclick="openBarcodeModal('${e.id}','${a.id}')" title="Barcode">⊞</button>
+        <button class="icon-btn" onclick="openBarcodeModal('${e.id}','${a.id}')" title="Data Matrix">⊞</button>
       </div>
     </div>`;
   }).join('')||'<div style="color:var(--text-faint);font-size:12px;font-family:var(--mono);padding:8px 0">No aliquots.</div>';
